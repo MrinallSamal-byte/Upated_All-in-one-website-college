@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    .welcome-card .text-end p {
+      color: #6c757d !important;
+      font-weight: 500;
+    }
+    body.dark-mode .welcome-card .text-end p {
+      color: #adb5bd !important;
+    }
+    .theme-toggle {
+      position: fixed !important;
+      top: 15px !important;
+      right: 70px !important;
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      background: #f8f9fa !important;
+      border: 1px solid #dee2e6 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      z-index: 1060 !important;
+      transition: all 0.3s ease !important;
+    }
+    .theme-toggle:hover {
+      background: #e9ecef !important;
+    }
+    body.dark-mode .theme-toggle {
+      background: #2d2d2d !important;
+      border-color: #444 !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .theme-toggle:hover {
+      background: #3d3d3d !important;
+    }
+    @media (max-width: 767.98px) {
+      .theme-toggle {
+        top: 10px !important;
+        right: 65px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="welcomeMessage" class="card welcome-card shadow-sm mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h3 class="card-title mb-1">Welcome, <span id="studentName">Student</span>!</h3>
+        <p class="card-text mb-0">Registration Number: <span id="regNumber"></span></p>
+      </div>
+      <div class="text-end">
+        <p class="mb-0" id="currentDate"></p>
+        <p class="mb-0" id="currentTime"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Announcements</h5>
+          <span class="badge bg-light text-dark">3 New</span>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex align-items-center">
+              <span class="badge bg-danger me-2">Important</span>
+              <div>Classes will be suspended on 25th July 2025 due to the annual college fest.</div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <span class="badge bg-warning me-2">Reminder</span>
+              <div>Submit your assignments for Data Structures by Friday.</div>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <span class="badge bg-success me-2">New</span>
+              <div>Inter-college coding competition registration is now open!</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Upcoming Deadlines</h5>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-bold">Data Structures Assignment</div>
+                <small class="text-muted">Friday, 5:00 PM</small>
+              </div>
+              <span class="badge bg-danger rounded-pill">2 days</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <div class="fw-bold">Database Mid-term</div>
+                <small class="text-muted">Monday, 10:00 AM</small>
+              </div>
+              <span class="badge bg-warning rounded-pill">5 days</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update user info
+      const userName = localStorage.getItem('userName') || 'Student';
+      // Update all student name references
+      const studentNameElements = document.querySelectorAll('#studentName, #profileName, .student-name');
+      studentNameElements.forEach(element => {
+        if (element) element.textContent = userName;
+      });
+      const registerNo = localStorage.getItem('registerNo') || '';
+      
+      document.getElementById('studentName').textContent = userName;
+      // Update sidebar student name
+      const sidebarStudentName = document.getElementById('sidebarStudentName');
+      if (sidebarStudentName) {
+        sidebarStudentName.textContent = userName;
+      }
+      document.getElementById('regNumber').textContent = registerNo;
+      
+      // Update date and time
+      function updateDateTime() {
+        const now = new Date();
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit' };
+        
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', dateOptions);
+        document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', timeOptions);
+      }
+      
+      updateDateTime();
+      setInterval(updateDateTime, 60000);
+    });
+
+    
+    // Embedded sidebar script with profile avatar
+    (function() {
+      if (document.querySelector('.sidebar')) return;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 250px;
+          height: 100vh;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          overflow-y: auto;
+          z-index: 1050;
+          transition: width 0.3s ease;
+          box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar.collapsed {
+          width: 70px;
+        }
+        .sidebar-header {
+          padding: 15px;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .toggle-btn {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+        }
+        .toggle-btn:hover {
+          background-color: rgba(255,255,255,0.1);
+        }
+        .sidebar .nav-link {
+          transition: all 0.3s ease;
+          position: relative;
+        }
+        .sidebar .nav-link:hover {
+          transform: translateX(5px);
+        }
+        .nav-text {
+          opacity: 1;
+          transition: opacity 0.3s ease;
+          margin-left: 10px;
+        }
+        .sidebar.collapsed .nav-text {
+          opacity: 0;
+        }
+        .collapsed-toggle {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          background: rgba(255,255,255,0.1);
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+          transition: all 0.3s ease;
+          opacity: 0;
+          visibility: hidden;
+        }
+        .sidebar.collapsed .collapsed-toggle {
+          opacity: 1;
+          visibility: visible;
+        }
+        .collapsed-toggle:hover {
+          background-color: rgba(255,255,255,0.2);
+        }
+        .sidebar.collapsed .nav-link::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          left: 70px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0,0,0,0.8);
+          color: white;
+          padding: 8px 12px;
+          border-radius: 4px;
+          font-size: 14px;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+          z-index: 1001;
+        }
+        .sidebar.collapsed .nav-link:hover::after {
+          opacity: 1;
+          visibility: visible;
+        }
+        .content {
+          margin-left: 250px;
+          padding: 15px;
+          transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + * .content,
+        body:has(.sidebar.collapsed) .content {
+          margin-left: 70px;
+        }
+        .profile-avatar {
+          position: fixed;
+          top: 15px;
+          right: 15px;
+          z-index: 1060;
+        }
+        .theme-toggle {
+          position: fixed;
+          top: 15px;
+          right: 70px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #f8f9fa;
+          border: 1px solid #dee2e6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 1060;
+          transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+          background: #e9ecef;
+        }
+        .avatar-container {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+        }
+        .avatar-img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(45deg, #007bff, #0056b3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 16px;
+          border: 3px solid #28a745;
+          box-sizing: border-box;
+        }
+        .avatar-dropdown {
+          position: absolute;
+          top: 50px;
+          right: 0;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          min-width: 150px;
+          display: none;
+        }
+        .avatar-dropdown.show {
+          display: block;
+        }
+        .dropdown-item {
+          padding: 10px 15px;
+          cursor: pointer;
+          border-bottom: 1px solid #f0f0f0;
+          color: #333;
+          text-decoration: none;
+          display: block;
+        }
+        .dropdown-item:hover {
+          background-color: #f8f9fa;
+        }
+        .dropdown-item:last-child {
+          border-bottom: none;
+        }
+        @media (max-width: 767.98px) {
+          .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+          }
+          .sidebar.show {
+            transform: translateX(0);
+          }
+          .content {
+            margin-left: 0;
+          }
+          .sidebar-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1060;
+          }
+          .profile-avatar {
+            top: 10px;
+            right: 10px;
+          }
+          .theme-toggle {
+            top: 10px;
+            right: 65px;
+          }
+        }
+        .sidebar .nav-link {
+          color: white;
+          padding: 8px 16px;
+        }
+        .sidebar .nav-link:hover {
+          background-color: rgba(255,255,255,0.1);
+        }
+        body.dark-mode {
+          background-color: #121212 !important;
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .card {
+          background-color: #1e1e1e !important;
+          border-color: #333 !important;
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .card-header {
+          background-color: #2d2d2d !important;
+          color: #ffffff !important;
+        }
+        body.dark-mode .avatar-dropdown {
+          background: #2d2d2d;
+          border-color: #444;
+        }
+        body.dark-mode .dropdown-item {
+          color: #e0e0e0;
+          border-color: #444;
+        }
+        body.dark-mode .dropdown-item:hover {
+          background-color: #3d3d3d;
+        }
+        body.dark-mode .theme-toggle {
+          background: #2d2d2d;
+          border-color: #444;
+          color: #e0e0e0;
+        }
+        body.dark-mode .theme-toggle:hover {
+          background: #3d3d3d;
+        }
+        .id-card-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.8);
+          display: none;
+          align-items: center;
+          justify-content: center;
+          z-index: 2000;
+        }
+        .id-card {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 15px;
+          padding: 20px;
+          width: 350px;
+          color: white;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          position: relative;
+        }
+        .id-card-close {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          background: none;
+          border: none;
+          color: white;
+          font-size: 20px;
+          cursor: pointer;
+        }
+        .id-card-header {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .id-card-photo {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: #fff;
+          margin: 0 auto 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px;
+          color: #667eea;
+          font-weight: bold;
+        }
+        .id-card-info {
+          text-align: center;
+        }
+        .id-card-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+        .id-card-reg {
+          font-size: 14px;
+          opacity: 0.9;
+          margin-bottom: 15px;
+        }
+        .id-card-details {
+          font-size: 12px;
+          opacity: 0.8;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      sidebar.innerHTML = `
+        <button class="collapsed-toggle" id="collapsedToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="sidebar-header">
+          <div class="d-flex align-items-center">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:40px;height:40px;font-size:18px;">S</div>
+            <div class="fs-6 fw-bold text-white nav-text" id="sidebarStudentName">Student</div>
+          </div>
+          <button class="toggle-btn" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-white" href="dashboard.htm" data-tooltip="Dashboard"><i class="fas fa-home me-2"></i><span class="nav-text">Dashboard</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="attendance.htm" data-tooltip="Attendance"><i class="fas fa-chart-bar me-2"></i><span class="nav-text">Attendance</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="marks.htm" data-tooltip="Marks"><i class="fas fa-graduation-cap me-2"></i><span class="nav-text">Marks</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="admitcard.htm" data-tooltip="Admit Card"><i class="fas fa-id-card me-2"></i><span class="nav-text">Admit Card</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="hostelmenu.htm" data-tooltip="Hostel Menu"><i class="fas fa-utensils me-2"></i><span class="nav-text">Hostel Menu</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="timetable.htm" data-tooltip="Timetable"><i class="fas fa-calendar-alt me-2"></i><span class="nav-text">Timetable</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="notes.htm" data-tooltip="Notes"><i class="fas fa-book me-2"></i><span class="nav-text">Notes</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="events.htm" data-tooltip="Events"><i class="fas fa-calendar-day me-2"></i><span class="nav-text">Events</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="clubs.htm" data-tooltip="Clubs"><i class="fas fa-users me-2"></i><span class="nav-text">Clubs</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="profile.htm" data-tooltip="Profile"><i class="fas fa-user me-2"></i><span class="nav-text">Profile</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#" onclick="localStorage.clear(); window.location.href='/login.html';"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        </ul>
+      `;
+      
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'sidebar-toggle btn btn-primary d-md-none';
+      toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      toggleBtn.onclick = () => sidebar.classList.toggle('show');
+      
+      // Create theme toggle button
+      const themeToggle = document.createElement('button');
+      themeToggle.className = 'theme-toggle';
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      themeToggle.onclick = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      };
+      
+      // Create profile avatar
+      const profileAvatar = document.createElement('div');
+      profileAvatar.className = 'profile-avatar';
+      profileAvatar.innerHTML = `
+        <div class="avatar-container">
+          <div class="avatar-img" id="avatarImg">S</div>
+          <div class="avatar-dropdown" id="avatarDropdown">
+            <a href="profile.htm" class="dropdown-item"><i class="fas fa-user me-2"></i>Profile</a>
+            <a href="#" class="dropdown-item" onclick="showIDCard()"><i class="fas fa-id-card me-2"></i>Show ID Card</a>
+            <a href="#" class="dropdown-item" onclick="changePhoto()"><i class="fas fa-camera me-2"></i>Change Photo</a>
+            <a href="#" class="dropdown-item" onclick="toggleDarkMode()"><i class="fas fa-cog me-2"></i>Settings</a>
+            <a href="#" class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertBefore(sidebar, document.body.firstChild);
+      document.body.insertBefore(toggleBtn, document.body.firstChild);
+      document.body.insertBefore(themeToggle, document.body.firstChild);
+      document.body.insertBefore(profileAvatar, document.body.firstChild);
+      
+      const content = document.createElement('div');
+      content.className = 'content';
+      const elementsToMove = Array.from(document.body.children).filter(child => 
+        child !== sidebar && child !== toggleBtn && child !== themeToggle && child !== profileAvatar &&
+        child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE'
+      );
+      elementsToMove.forEach(element => content.appendChild(element));
+      document.body.appendChild(content);
+      
+      // Update avatar with user initial
+      const userName = localStorage.getItem('userName') || 'Student';
+      const savedAvatar = localStorage.getItem('userAvatar');
+      const avatarImg = document.getElementById('avatarImg');
+      
+      if (savedAvatar) {
+        avatarImg.style.backgroundImage = `url(${savedAvatar})`;
+        avatarImg.style.backgroundSize = 'cover';
+        avatarImg.style.backgroundPosition = 'center';
+        avatarImg.textContent = '';
+      } else {
+        avatarImg.textContent = userName.charAt(0).toUpperCase();
+      }
+      
+      // Avatar dropdown functionality
+      document.getElementById('avatarImg').onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('show');
+      };
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        document.getElementById('avatarDropdown').classList.remove('show');
+      });
+      
+      // Global functions
+            
+            
+      window.showIDCard = function() {
+        const userName = localStorage.getItem('userName') || 'Student';
+        const registerNo = localStorage.getItem('registerNo') || 'REG123456';
+        const savedAvatar = localStorage.getItem('userAvatar');
+        
+        const modal = document.createElement('div');
+        modal.className = 'id-card-modal';
+        modal.innerHTML = `
+          <div class="id-card">
+            <button class="id-card-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+            <div class="id-card-header">
+              <h6>ITER STUDENT ID</h6>
+            </div>
+            <div class="id-card-photo" id="modalPhoto">${savedAvatar ? '' : userName.charAt(0).toUpperCase()}</div>
+            <div class="id-card-info">
+              <div class="id-card-name">${userName}</div>
+              <div class="id-card-reg">${registerNo}</div>
+              <div class="id-card-details">
+                <div>Computer Science & Engineering</div>
+                <div>Semester: 6</div>
+                <div>Valid Until: Dec 2024</div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        if (savedAvatar) {
+          modal.querySelector('#modalPhoto').style.backgroundImage = `url(${savedAvatar})`;
+          modal.querySelector('#modalPhoto').style.backgroundSize = 'cover';
+          modal.querySelector('#modalPhoto').style.backgroundPosition = 'center';
+        }
+        
+        modal.style.display = 'flex';
+        document.body.appendChild(modal);
+        
+        modal.onclick = function(e) {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        };
+        
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+      window.changePhoto = function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const avatarImg = document.getElementById('avatarImg');
+              avatarImg.style.backgroundImage = `url(${e.target.result})`;
+              avatarImg.style.backgroundSize = 'cover';
+              avatarImg.style.backgroundPosition = 'center';
+              avatarImg.textContent = '';
+              localStorage.setItem('userAvatar', e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+        input.click();
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+      window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+      
+      window.logout = function() {
+        localStorage.clear();
+        window.location.href = '/login.html';
+      };
+      
+      // Apply dark mode if saved
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    })();
+
+      // Sidebar toggle functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const collapsedToggle = document.getElementById('collapsedToggle');
+        
+        function toggleSidebar() {
+          sidebar.classList.toggle('collapsed');
+          localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+        
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', toggleSidebar);
+        }
+        
+        if (collapsedToggle) {
+          collapsedToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        // Restore sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+          sidebar.classList.add('collapsed');
+        }
+      });
+  </script>
+</body>
+</html>

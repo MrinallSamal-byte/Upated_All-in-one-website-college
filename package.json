@@ -1,0 +1,25 @@
+{
+  "name": "eduscanplus",
+  "version": "1.0.0",
+  "description": "All-in-One College Portal",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "setup:db": "mysql -u root -p < sql/schema.sql && mysql -u root -p < sql/seed.sql"
+  },
+  "keywords": [
+    "education",
+    "college",
+    "portal"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "concurrently": "^8.2.0",
+    "csv-parser": "^3.2.0"
+  }
+}

@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes & Resources</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+    <i class="fas fa-book fa-2x me-3 text-primary"></i>
+    <h2 class="mb-0">Notes & Resources</h2>
+  </div>
+  
+  <!-- Filter Section -->
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h6 class="mb-0">Filter by Branch & Semester</h6>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label">Branch</label>
+          <select class="form-select" id="branchFilter">
+            <option value="">All Branches</option>
+            <option value="CSE">Computer Science & Engineering</option>
+            <option value="ECE">Electronics & Communication</option>
+            <option value="EEE">Electrical & Electronics</option>
+            <option value="MECH">Mechanical Engineering</option>
+            <option value="CIVIL">Civil Engineering</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Semester</label>
+          <select class="form-select" id="semesterFilter">
+            <option value="">All Semesters</option>
+            <option value="1">1st Semester</option>
+            <option value="2">2nd Semester</option>
+            <option value="3">3rd Semester</option>
+            <option value="4">4th Semester</option>
+            <option value="5">5th Semester</option>
+            <option value="6">6th Semester</option>
+            <option value="7">7th Semester</option>
+            <option value="8">8th Semester</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" onclick="applyFilters()">
+        <i class="fas fa-filter me-2"></i>Apply Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <ul class="nav nav-tabs mb-4" id="notesTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="subject-notes-tab" data-bs-toggle="tab" data-bs-target="#subject-notes" type="button">
+        <i class="fas fa-file-alt me-2"></i>Subject Notes
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pyqs-tab" data-bs-toggle="tab" data-bs-target="#pyqs" type="button">
+        <i class="fas fa-question-circle me-2"></i>Previous Year Questions
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="books-tab" data-bs-toggle="tab" data-bs-target="#books" type="button">
+        <i class="fas fa-book-open me-2"></i>Book PDFs
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="syllabus-tab" data-bs-toggle="tab" data-bs-target="#syllabus" type="button">
+        <i class="fas fa-list-alt me-2"></i>Syllabus
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content" id="notesTabContent">
+    
+    <!-- Subject Notes Tab -->
+    <div class="tab-pane fade show active" id="subject-notes" role="tabpanel">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+              <h6 class="mb-0">Data Structures</h6>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Arrays & Linked Lists</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Stacks & Queues</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Trees & Graphs</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Sorting Algorithms</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-header bg-success text-white">
+              <h6 class="mb-0">Database Systems</h6>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>ER Diagrams</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>SQL Queries</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Normalization</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Transactions</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-header bg-info text-white">
+              <h6 class="mb-0">Computer Networks</h6>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled">
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>OSI Model</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>TCP/IP Protocol</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Routing Algorithms</a></li>
+                <li><a href="#" class="text-decoration-none"><i class="fas fa-file-pdf text-danger me-2"></i>Network Security</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PYQs Tab -->
+    <div class="tab-pane fade" id="pyqs" role="tabpanel">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-header bg-warning text-dark">
+              <h6 class="mb-0">Mid-Term Examinations</h6>
+            </div>
+            <div class="card-body">
+              <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-file-pdf text-danger me-2"></i>Data Structures - 2023</span>
+                    <small>Mid-Term</small>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-file-pdf text-danger me-2"></i>Database Systems - 2023</span>
+                    <small>Mid-Term</small>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-file-pdf text-danger me-2"></i>Computer Networks - 2023</span>
+                    <small>Mid-Term</small>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+          <div class="card">
+            <div class="card-header bg-danger text-white">
+              <h6 class="mb-0">End-Term Examinations</h6>
+            </div>
+            <div class="card-body">
+              <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-file-pdf text-danger me-2"></i>Data Structures - 2022</span>
+                    <small>End-Term</small>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-file-pdf text-danger me-2"></i>Database Systems - 2022</span>
+                    <small>End-Term</small>
+                  </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-file-pdf text-danger me-2"></i>Computer Networks - 2022</span>
+                    <small>End-Term</small>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book PDFs Tab -->
+    <div class="tab-pane fade" id="books" role="tabpanel">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-book fa-3x text-primary mb-3"></i>
+              <h6>Introduction to Algorithms</h6>
+              <p class="text-muted small">by Cormen, Leiserson, Rivest</p>
+              <a href="#" class="btn btn-primary btn-sm">
+                <i class="fas fa-download me-1"></i>Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-database fa-3x text-success mb-3"></i>
+              <h6>Database System Concepts</h6>
+              <p class="text-muted small">by Silberschatz, Galvin, Gagne</p>
+              <a href="#" class="btn btn-success btn-sm">
+                <i class="fas fa-download me-1"></i>Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-network-wired fa-3x text-info mb-3"></i>
+              <h6>Computer Networking</h6>
+              <p class="text-muted small">by Kurose & Ross</p>
+              <a href="#" class="btn btn-info btn-sm">
+                <i class="fas fa-download me-1"></i>Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-code fa-3x text-warning mb-3"></i>
+              <h6>Clean Code</h6>
+              <p class="text-muted small">by Robert C. Martin</p>
+              <a href="#" class="btn btn-warning btn-sm">
+                <i class="fas fa-download me-1"></i>Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-cogs fa-3x text-secondary mb-3"></i>
+              <h6>Operating System Concepts</h6>
+              <p class="text-muted small">by Silberschatz, Galvin, Gagne</p>
+              <a href="#" class="btn btn-secondary btn-sm">
+                <i class="fas fa-download me-1"></i>Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-laptop-code fa-3x text-dark mb-3"></i>
+              <h6>Software Engineering</h6>
+              <p class="text-muted small">by Ian Sommerville</p>
+              <a href="#" class="btn btn-dark btn-sm">
+                <i class="fas fa-download me-1"></i>Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Syllabus Tab -->
+    <div class="tab-pane fade" id="syllabus" role="tabpanel">
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>Please use the filter above to select your branch and semester to view relevant syllabus documents.
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body text-center py-5">
+              <i class="fas fa-filter fa-4x text-muted mb-3"></i>
+              <h4>Filter Required</h4>
+              <p class="text-muted">Select your branch from the filter section above to view branch-specific syllabus documents.</p>
+              <p class="text-muted">You can also filter by semester to see specific semester syllabus.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    
+    // Filter functionality
+    window.applyFilters = function() {
+      const branch = document.getElementById('branchFilter').value;
+      const semester = document.getElementById('semesterFilter').value;
+      
+      if (!branch && !semester) {
+        alert('Please select at least one filter option');
+        return;
+      }
+      
+      // Show loading message
+      const activeTab = document.querySelector('.tab-pane.active');
+      if (activeTab) {
+        activeTab.innerHTML = '<div class="text-center p-4"><i class="fas fa-spinner fa-spin me-2"></i>Loading filtered content...</div>';
+      }
+      
+      // Simulate API call for filtered content
+      setTimeout(() => {
+        loadFilteredContent(branch, semester);
+      }, 1000);
+    };
+    
+    function loadFilteredContent(branch, semester) {
+      const activeTab = document.querySelector('.tab-pane.active');
+      if (!activeTab) return;
+      
+      let filterText = '';
+      if (branch && semester) {
+        filterText = `${branch} - ${semester}${semester === '1' ? 'st' : semester === '2' ? 'nd' : semester === '3' ? 'rd' : 'th'} Semester`;
+      } else if (branch) {
+        filterText = branch;
+      } else if (semester) {
+        filterText = `${semester}${semester === '1' ? 'st' : semester === '2' ? 'nd' : semester === '3' ? 'rd' : 'th'} Semester`;
+      }
+      
+      // Show filtered content for all tabs
+      const tabId = activeTab.id;
+      let content = '';
+      
+      if (tabId === 'syllabus') {
+        content = getSyllabusContent(branch, semester, filterText);
+      } else {
+        content = getGeneralContent(filterText);
+      }
+      
+      activeTab.innerHTML = content;
+    }
+    
+    function getSyllabusContent(branch, semester, filterText) {
+      const branchName = {
+        'CSE': 'Computer Science & Engineering',
+        'ECE': 'Electronics & Communication',
+        'EEE': 'Electrical & Electronics',
+        'MECH': 'Mechanical Engineering',
+        'CIVIL': 'Civil Engineering'
+      };
+      
+      // If no branch selected, show message to select branch
+      if (!branch) {
+        return `
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>Please select a branch to view syllabus
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body text-center">
+                  <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+                  <h5>Filter Required</h5>
+                  <p class="text-muted">Select a branch from the filter above to view branch-specific syllabus.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      return `
+        <div class="alert alert-info">
+          <i class="fas fa-filter me-2"></i>Showing syllabus for: <strong>${filterText}</strong>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">${branchName[branch]} Syllabus</h6>
+              </div>
+              <div class="card-body">
+                <div class="list-group list-group-flush">
+                  ${semester ? 
+                    `<a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>${semester}${semester === '1' ? 'st' : semester === '2' ? 'nd' : semester === '3' ? 'rd' : 'th'} Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>` :
+                    `<a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>1st Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>2nd Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>3rd Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>4th Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>5th Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>6th Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>7th Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                      <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-file-pdf text-danger me-2"></i>8th Semester Syllabus - ${branchName[branch]}</span>
+                        <small>2024-25</small>
+                      </div>
+                    </a>`
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function getGeneralContent(filterText) {
+      return `
+        <div class="alert alert-info">
+          <i class="fas fa-filter me-2"></i>Showing content for: <strong>${filterText}</strong>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">Filtered Content</h6>
+              </div>
+              <div class="card-body">
+                <p class="text-muted">Content filtered by your selection will appear here.</p>
+                <p>This feature will load notes, PYQs, and books based on your branch and semester selection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Embedded sidebar script with profile avatar
+    (function() {
+      if (document.querySelector('.sidebar')) return;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 250px;
+          height: 100vh;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          overflow-y: auto;
+          z-index: 1050;
+          transition: width 0.3s ease;
+          box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar.collapsed {
+          width: 70px;
+        }
+        .sidebar-header {
+          padding: 15px;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .toggle-btn {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+        }
+        .toggle-btn:hover {
+          background-color: rgba(255,255,255,0.1);
+        }
+        .sidebar .nav-link {
+          transition: all 0.3s ease;
+          position: relative;
+        }
+        .sidebar .nav-link:hover {
+          transform: translateX(5px);
+        }
+        .nav-text {
+          opacity: 1;
+          transition: opacity 0.3s ease;
+          margin-left: 10px;
+        }
+        .sidebar.collapsed .nav-text {
+          opacity: 0;
+        }
+        .collapsed-toggle {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          background: rgba(255,255,255,0.1);
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+          transition: all 0.3s ease;
+          opacity: 0;
+          visibility: hidden;
+        }
+        .sidebar.collapsed .collapsed-toggle {
+          opacity: 1;
+          visibility: visible;
+        }
+        .collapsed-toggle:hover {
+          background-color: rgba(255,255,255,0.2);
+        }
+        .sidebar.collapsed .nav-link::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          left: 70px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0,0,0,0.8);
+          color: white;
+          padding: 8px 12px;
+          border-radius: 4px;
+          font-size: 14px;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+          z-index: 1001;
+        }
+        .sidebar.collapsed .nav-link:hover::after {
+          opacity: 1;
+          visibility: visible;
+        }
+        .content {
+          margin-left: 250px;
+          padding: 15px;
+          transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + * .content,
+        body:has(.sidebar.collapsed) .content {
+          margin-left: 70px;
+        }
+        .profile-avatar {
+          position: fixed;
+          top: 15px;
+          right: 15px;
+          z-index: 1060;
+        }
+        .theme-toggle {
+          position: fixed;
+          top: 15px;
+          right: 70px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #f8f9fa;
+          border: 1px solid #dee2e6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 1060;
+          transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+          background: #e9ecef;
+        }
+        .avatar-container {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+        }
+        .avatar-img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(45deg, #007bff, #0056b3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 16px;
+          border: 3px solid #28a745;
+          box-sizing: border-box;
+        }
+        .avatar-dropdown {
+          position: absolute;
+          top: 50px;
+          right: 0;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          min-width: 150px;
+          display: none;
+        }
+        .avatar-dropdown.show {
+          display: block;
+        }
+        .dropdown-item {
+          padding: 10px 15px;
+          cursor: pointer;
+          border-bottom: 1px solid #f0f0f0;
+          color: #333;
+          text-decoration: none;
+          display: block;
+        }
+        .dropdown-item:hover {
+          background-color: #f8f9fa;
+        }
+        .dropdown-item:last-child {
+          border-bottom: none;
+        }
+        @media (max-width: 767.98px) {
+          .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+          }
+          .sidebar.show {
+            transform: translateX(0);
+          }
+          .content {
+            margin-left: 0;
+          }
+          .sidebar-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1060;
+          }
+          .profile-avatar {
+            top: 10px;
+            right: 10px;
+          }
+          .theme-toggle {
+            top: 10px;
+            right: 65px;
+          }
+        }
+        .sidebar .nav-link {
+          color: white;
+          padding: 8px 16px;
+        }
+        .sidebar .nav-link:hover {
+          background-color: rgba(255,255,255,0.1);
+        }
+        body.dark-mode {
+          background-color: #121212 !important;
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .card {
+          background-color: #1e1e1e !important;
+          border-color: #333 !important;
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .card-header {
+          background-color: #2d2d2d !important;
+          color: #ffffff !important;
+        }
+        body.dark-mode .avatar-dropdown {
+          background: #2d2d2d;
+          border-color: #444;
+        }
+        body.dark-mode .dropdown-item {
+          color: #e0e0e0;
+          border-color: #444;
+        }
+        body.dark-mode .dropdown-item:hover {
+          background-color: #3d3d3d;
+        }
+        body.dark-mode .theme-toggle {
+          background: #2d2d2d;
+          border-color: #444;
+          color: #e0e0e0;
+        }
+        body.dark-mode .theme-toggle:hover {
+          background: #3d3d3d;
+        }
+        .id-card-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.8);
+          display: none;
+          align-items: center;
+          justify-content: center;
+          z-index: 2000;
+        }
+        .id-card {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 15px;
+          padding: 20px;
+          width: 350px;
+          color: white;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          position: relative;
+        }
+        .id-card-close {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          background: none;
+          border: none;
+          color: white;
+          font-size: 20px;
+          cursor: pointer;
+        }
+        .id-card-header {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .id-card-photo {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: #fff;
+          margin: 0 auto 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px;
+          color: #667eea;
+          font-weight: bold;
+        }
+        .id-card-info {
+          text-align: center;
+        }
+        .id-card-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+        .id-card-reg {
+          font-size: 14px;
+          opacity: 0.9;
+          margin-bottom: 15px;
+        }
+        .id-card-details {
+          font-size: 12px;
+          opacity: 0.8;
+        }
+        body.dark-mode .nav-tabs .nav-link {
+          color: #e0e0e0;
+          border-color: #444;
+        }
+        body.dark-mode .nav-tabs .nav-link.active {
+          background-color: #1e1e1e;
+          border-color: #444;
+          color: #ffffff;
+        }
+        body.dark-mode .list-group-item {
+          background-color: #1e1e1e;
+          border-color: #333;
+          color: #e0e0e0;
+        }
+        body.dark-mode .list-group-item:hover {
+          background-color: #2d2d2d;
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+          color: #ffffff !important;
+        }
+        body.dark-mode p, body.dark-mode span, body.dark-mode div {
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .text-muted {
+          color: #adb5bd !important;
+        }
+        body.dark-mode .card-body h6 {
+          color: #ffffff !important;
+        }
+        body.dark-mode .card-body p {
+          color: #adb5bd !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      sidebar.innerHTML = `
+        <button class="collapsed-toggle" id="collapsedToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="sidebar-header">
+          <div class="d-flex align-items-center">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:40px;height:40px;font-size:18px;">S</div>
+            <div class="fs-6 fw-bold text-white nav-text" id="sidebarStudentName">Student</div>
+          </div>
+          <button class="toggle-btn" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-white" href="dashboard.htm" data-tooltip="Dashboard"><i class="fas fa-home me-2"></i><span class="nav-text">Dashboard</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="attendance.htm" data-tooltip="Attendance"><i class="fas fa-chart-bar me-2"></i><span class="nav-text">Attendance</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="marks.htm" data-tooltip="Marks"><i class="fas fa-graduation-cap me-2"></i><span class="nav-text">Marks</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="admitcard.htm" data-tooltip="Admit Card"><i class="fas fa-id-card me-2"></i><span class="nav-text">Admit Card</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="hostelmenu.htm" data-tooltip="Hostel Menu"><i class="fas fa-utensils me-2"></i><span class="nav-text">Hostel Menu</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="timetable.htm" data-tooltip="Timetable"><i class="fas fa-calendar-alt me-2"></i><span class="nav-text">Timetable</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="notes.htm" data-tooltip="Notes"><i class="fas fa-book me-2"></i><span class="nav-text">Notes</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="events.htm" data-tooltip="Events"><i class="fas fa-calendar-day me-2"></i><span class="nav-text">Events</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="clubs.htm" data-tooltip="Clubs"><i class="fas fa-users me-2"></i><span class="nav-text">Clubs</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="profile.htm" data-tooltip="Profile"><i class="fas fa-user me-2"></i><span class="nav-text">Profile</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#" onclick="localStorage.clear(); window.location.href='/login.html';"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        </ul>
+      `;
+      
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'sidebar-toggle btn btn-primary d-md-none';
+      toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      toggleBtn.onclick = () => sidebar.classList.toggle('show');
+      
+      // Create theme toggle button
+      const themeToggle = document.createElement('button');
+      themeToggle.className = 'theme-toggle';
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      themeToggle.onclick = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      };
+      
+      // Create profile avatar
+      const profileAvatar = document.createElement('div');
+      profileAvatar.className = 'profile-avatar';
+      profileAvatar.innerHTML = `
+        <div class="avatar-container">
+          <div class="avatar-img" id="avatarImg">S</div>
+          <div class="avatar-dropdown" id="avatarDropdown">
+            <a href="profile.htm" class="dropdown-item"><i class="fas fa-user me-2"></i>Profile</a>
+            <a href="#" class="dropdown-item" onclick="showIDCard()"><i class="fas fa-id-card me-2"></i>Show ID Card</a>
+            <a href="#" class="dropdown-item" onclick="changePhoto()"><i class="fas fa-camera me-2"></i>Change Photo</a>
+            <a href="#" class="dropdown-item" onclick="toggleDarkMode()"><i class="fas fa-cog me-2"></i>Settings</a>
+            <a href="#" class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertBefore(sidebar, document.body.firstChild);
+      document.body.insertBefore(toggleBtn, document.body.firstChild);
+      document.body.insertBefore(themeToggle, document.body.firstChild);
+      document.body.insertBefore(profileAvatar, document.body.firstChild);
+      
+      const content = document.createElement('div');
+      content.className = 'content';
+      const elementsToMove = Array.from(document.body.children).filter(child => 
+        child !== sidebar && child !== toggleBtn && child !== themeToggle && child !== profileAvatar &&
+        child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE'
+      );
+      elementsToMove.forEach(element => content.appendChild(element));
+      document.body.appendChild(content);
+      
+      // Update avatar with user initial
+      const userName = localStorage.getItem('userName') || 'Student';
+      // Update all student name references
+      const studentNameElements = document.querySelectorAll('#studentName, #profileName, .student-name');
+      studentNameElements.forEach(element => {
+        if (element) element.textContent = userName;
+      });
+      // Update sidebar student name
+      const sidebarStudentName = document.getElementById('sidebarStudentName');
+      if (sidebarStudentName) {
+        sidebarStudentName.textContent = userName;
+      }
+      const savedAvatar = localStorage.getItem('userAvatar');
+      const avatarImg = document.getElementById('avatarImg');
+      
+      if (savedAvatar) {
+        avatarImg.style.backgroundImage = `url(${savedAvatar})`;
+        avatarImg.style.backgroundSize = 'cover';
+        avatarImg.style.backgroundPosition = 'center';
+        avatarImg.textContent = '';
+      } else {
+        avatarImg.textContent = userName.charAt(0).toUpperCase();
+      }
+      
+      // Avatar dropdown functionality
+      document.getElementById('avatarImg').onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('show');
+      };
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        document.getElementById('avatarDropdown').classList.remove('show');
+      });
+      
+      // Global functions
+            
+            
+      window.showIDCard = function() {
+        const userName = localStorage.getItem('userName') || 'Student';
+        const registerNo = localStorage.getItem('registerNo') || 'REG123456';
+        const savedAvatar = localStorage.getItem('userAvatar');
+        
+        const modal = document.createElement('div');
+        modal.className = 'id-card-modal';
+        modal.innerHTML = `
+          <div class="id-card">
+            <button class="id-card-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+            <div class="id-card-header">
+              <h6>ITER STUDENT ID</h6>
+            </div>
+            <div class="id-card-photo" id="modalPhoto">${savedAvatar ? '' : userName.charAt(0).toUpperCase()}</div>
+            <div class="id-card-info">
+              <div class="id-card-name">${userName}</div>
+              <div class="id-card-reg">${registerNo}</div>
+              <div class="id-card-details">
+                <div>Computer Science & Engineering</div>
+                <div>Semester: 6</div>
+                <div>Valid Until: Dec 2024</div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        if (savedAvatar) {
+          modal.querySelector('#modalPhoto').style.backgroundImage = `url(${savedAvatar})`;
+          modal.querySelector('#modalPhoto').style.backgroundSize = 'cover';
+          modal.querySelector('#modalPhoto').style.backgroundPosition = 'center';
+        }
+        
+        modal.style.display = 'flex';
+        document.body.appendChild(modal);
+        
+        modal.onclick = function(e) {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        };
+        
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+      window.changePhoto = function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const avatarImg = document.getElementById('avatarImg');
+              avatarImg.style.backgroundImage = `url(${e.target.result})`;
+              avatarImg.style.backgroundSize = 'cover';
+              avatarImg.style.backgroundPosition = 'center';
+              avatarImg.textContent = '';
+              localStorage.setItem('userAvatar', e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+        input.click();
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+      window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+      
+      window.logout = function() {
+        localStorage.clear();
+        window.location.href = '/login.html';
+      };
+      
+      // Apply dark mode if saved
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    })();
+
+      // Sidebar toggle functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const collapsedToggle = document.getElementById('collapsedToggle');
+        
+        function toggleSidebar() {
+          sidebar.classList.toggle('collapsed');
+          localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+        
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', toggleSidebar);
+        }
+        
+        if (collapsedToggle) {
+          collapsedToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        // Restore sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+          sidebar.classList.add('collapsed');
+        }
+      });
+  </script>
+</body>
+</html>

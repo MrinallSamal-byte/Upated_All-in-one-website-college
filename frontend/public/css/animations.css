@@ -1,0 +1,130 @@
+/* Animations for login and signup pages */
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from { 
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Shake animation for errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Apply animations to elements */
+.login-container, .signup-container {
+  animation: fadeIn 0.8s ease-out, slideUp 0.8s ease-out;
+}
+
+.login-container h1, .signup-container h1 {
+  animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+
+.login-container p, .signup-container p {
+  animation: slideInRight 0.8s ease-out 0.3s both;
+}
+
+.login-container h2, .signup-container h2 {
+  animation: slideUp 0.8s ease-out 0.4s both;
+}
+
+.login-container form, .signup-container form {
+  animation: fadeIn 1s ease-out 0.5s both;
+}
+
+.login-container .input-group, .signup-container .input-group {
+  animation: slideInLeft 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.login-container .input-group:nth-child(1), .signup-container .row:nth-child(1) {
+  animation-delay: 0.6s;
+}
+
+.login-container .input-group:nth-child(2), .signup-container .row:nth-child(2) {
+  animation-delay: 0.7s;
+}
+
+.signup-container .row:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+.signup-container .row:nth-child(4) {
+  animation-delay: 0.9s;
+}
+
+.login-container button, .signup-container button {
+  animation: slideUp 0.5s ease-out 0.9s both;
+  transition: transform 0.3s ease;
+}
+
+.login-container button:hover, .signup-container button:hover {
+  transform: translateY(-3px);
+}
+
+.login-container a, .signup-container a {
+  animation: fadeIn 0.5s ease-out 1s both;
+  transition: transform 0.3s ease;
+}
+
+.login-container a:hover, .signup-container a:hover {
+  transform: translateY(-2px);
+}
+
+.alert-danger.show-error {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Theme switcher animation */
+.theme-switcher i {
+  transition: transform 0.5s ease, color 0.5s ease;
+}
+
+.theme-switcher:hover i {
+  transform: rotate(180deg);
+}

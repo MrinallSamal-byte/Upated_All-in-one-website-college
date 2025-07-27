@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      table {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+      }
+      @media (max-width: 600px) {
+        table,
+        th,
+        td {
+          font-size: 14px;
+        }
+        ul {
+          padding: 0 10px;
+        }
+        .dark-toggle {
+          position: static;
+          width: 100%;
+        }
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <title>Club Events</title>
+  </head>
+  <body>
+    <h2>Club Events</h2>
+    <ul id="clubEventList"></ul>
+    <script>
+      fetch("http://localhost:5000/api/clubevents")
+        .then((res) => res.json())
+        .then((data) => {
+          const ul = document.getElementById("clubEventList");
+          data.forEach((ev) => {
+            ul.innerHTML += `<li>
+            <strong>${ev.title}</strong> (${ev.event_date})<br>
+            ${ev.description} <br>
+            Club: ${ev.club_name}
+          </li>`;
+          });
+        });
+    </script>
+  </body>
+</html>

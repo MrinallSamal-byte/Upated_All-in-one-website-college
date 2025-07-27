@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITER College Portal - Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/custom.css">
+  <link rel="stylesheet" href="./css/animations.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .theme-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      z-index: 1000;
+    }
+    
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 450px;
+      width: 100%;
+    }
+    
+    body.dark-mode .login-container {
+      background-color: rgba(33, 37, 41, 0.9);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .form-control:focus, .btn:focus {
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      border-color: #86b7fe;
+    }
+    
+    .input-group-text {
+      background-color: #f8f9fa;
+    }
+    
+    body.dark-mode .input-group-text {
+      background-color: #343a40;
+      color: #f8f9fa;
+      border-color: #495057;
+    }
+    
+    body.dark-mode .form-control {
+      background-color: #343a40;
+      border-color: #495057;
+      color: #f8f9fa;
+    }
+    
+    .server-status {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      z-index: 1000;
+    }
+    
+    .server-status.online {
+      background-color: rgba(25, 135, 84, 0.2);
+      color: #198754;
+      border: 1px solid #198754;
+    }
+    
+    .server-status.offline {
+      background-color: rgba(220, 53, 69, 0.2);
+      color: #dc3545;
+      border: 1px solid #dc3545;
+    }
+    
+    body.dark-mode .server-status.online {
+      background-color: rgba(25, 135, 84, 0.3);
+      color: #20c997;
+    }
+    
+    body.dark-mode .server-status.offline {
+      background-color: rgba(220, 53, 69, 0.3);
+      color: #f8f9fa;
+    }
+  </style>
+</head>
+<body>
+  <div id="threeDBackground" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+  <div class="theme-switcher">
+    <i class="fas fa-sun"></i>
+  </div>
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="login-container">
+      <div class="text-center mb-4">
+        <h1 class="mb-1">ITER College Portal</h1>
+        <p>Institute of Technical Education and Research</p>
+      </div>
+      <h2 class="text-center mb-4 pb-2 border-bottom border-primary">Login to Your Account</h2>
+      <form id="loginForm">
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input type="text" id="registerNo" class="form-control" placeholder="Registration Number (e.g., 24E112R17)" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input type="password" id="password" class="form-control" placeholder="Password" required>
+          <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 mb-3" id="loginBtn">
+          Login <i class="fas fa-arrow-right ms-2"></i>
+        </button>
+        <div class="alert alert-info text-center" role="alert">
+          <i class="fas fa-info-circle me-2"></i> Student login: 24E112R17 / Mrinall1235<br>Admin login: admin / Admin1234<br>Teacher login: TECH001 / Teacher1234
+        </div>
+      </form>
+      <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+      <a href="/" class="d-block text-center mt-3 text-primary text-decoration-none">
+        <i class="fas fa-home me-2"></i> Back to Home
+      </a>
+    </div>
+  </div>
+  
+  <div id="serverStatus" class="server-status">
+    <i class="fas fa-circle-notch fa-spin me-1"></i> Checking server...
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme switcher functionality
+    const themeSwitcher = document.querySelector('.theme-switcher i');
+    const body = document.body;
+
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+      body.classList.add(currentTheme);
+      if (currentTheme === 'dark-mode') {
+        themeSwitcher.classList.replace('fa-sun', 'fa-moon');
+      }
+    } else {
+      body.classList.add('dark-mode');
+      themeSwitcher.classList.replace('fa-sun', 'fa-moon');
+      localStorage.setItem('theme', 'dark-mode');
+    }
+
+    themeSwitcher.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      if (body.classList.contains('dark-mode')) {
+        themeSwitcher.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'dark-mode');
+      } else {
+        themeSwitcher.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'light-mode');
+      }
+    });
+    
+    // Check server status
+    const serverStatus = document.getElementById('serverStatus');
+    const loginBtn = document.getElementById('loginBtn');
+    
+    async function checkServerStatus() {
+      try {
+        const response = await fetch('http://localhost:5000/api/health', { 
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors',
+          cache: 'no-cache',
+          timeout: 3000
+        });
+        
+        if (response.ok) {
+          serverStatus.innerHTML = '<i class="fas fa-check-circle me-1"></i> Server Online';
+          serverStatus.className = 'server-status online';
+          loginBtn.disabled = false;
+          return true;
+        } else {
+          throw new Error('Server returned error');
+        }
+      } catch (error) {
+        serverStatus.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Server Offline';
+        serverStatus.className = 'server-status offline';
+        loginBtn.disabled = true;
+        
+        // Show error message
+        const errorMessageDiv = document.getElementById('errorMessage');
+        errorMessageDiv.textContent = 'Cannot connect to server. Please try again later or contact support.';
+        errorMessageDiv.style.display = 'block';
+        errorMessageDiv.classList.add('show-error');
+        
+        return false;
+      }
+    }
+    
+    // Check server status initially and every 10 seconds
+    checkServerStatus();
+    setInterval(checkServerStatus, 10000);
+
+    // Login functionality
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Check server status before attempting login
+        const isServerOnline = await checkServerStatus();
+        if (!isServerOnline) {
+          return;
+        }
+        
+        const registerNo = document.getElementById('registerNo').value;
+        const password = document.getElementById('password').value;
+        
+        // Show loading state
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Logging in...';
+
+        try {
+          const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ registerNo, password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            if (data.userType === 'admin') {
+              localStorage.setItem('adminToken', data.token);
+              localStorage.setItem('registerNo', data.user.register_no);
+              localStorage.setItem('userName', data.user.name);
+              localStorage.setItem('userType', data.userType);
+              window.location.replace('/welcome.html');
+            } else if (data.userType === 'teacher') {
+              localStorage.setItem('teacherToken', data.token);
+              localStorage.setItem('registerNo', data.user.register_no);
+              localStorage.setItem('userName', data.user.name);
+              localStorage.setItem('userType', data.userType);
+              window.location.replace('/welcome.html');
+            } else {
+              localStorage.setItem('token', data.token);
+              localStorage.setItem('registerNo', data.student.register_no);
+              localStorage.setItem('userName', data.student.name);
+              localStorage.setItem('userType', data.userType);
+              window.location.replace('/welcome.html');
+            }
+          } else {
+            const errorMessageDiv = document.getElementById('errorMessage');
+            errorMessageDiv.textContent = data.error || 'Login failed';
+            errorMessageDiv.style.display = 'block';
+            errorMessageDiv.classList.add('show-error');
+            
+            // Reset button
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = 'Login <i class="fas fa-arrow-right ms-2"></i>';
+          }
+        } catch (error) {
+          const errorMessageDiv = document.getElementById('errorMessage');
+          errorMessageDiv.textContent = 'Server error. Please try again later.';
+          errorMessageDiv.style.display = 'block';
+          errorMessageDiv.classList.add('show-error');
+          
+          // Reset button
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = 'Login <i class="fas fa-arrow-right ms-2"></i>';
+        }
+      });
+    });
+    
+    // Simple 3D background effect
+    function init3DBackground(elementId) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      let mouseX = 0, mouseY = 0;
+      let windowHalfX = window.innerWidth / 2;
+      let windowHalfY = window.innerHeight / 2;
+      
+      document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - windowHalfX) / 100;
+        mouseY = (event.clientY - windowHalfY) / 100;
+        
+        element.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      });
+      
+      window.addEventListener('resize', () => {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+      });
+    }
+    
+    init3DBackground('threeDBackground');
+
+    // Password toggle functionality
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordField = document.getElementById('password');
+      const toggleIcon = this.querySelector('i');
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    });
+  </script>
+</body>
+</html>

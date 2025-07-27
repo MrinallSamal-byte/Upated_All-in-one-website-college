@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Sidebar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sidebar-container">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <button id="toggle-btn" class="toggle-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo">
+          <span class="logo-text">ITER Portal</span>
+        </div>
+      </div>
+      
+      <div class="sidebar-content">
+        <ul class="nav-list">
+          <li class="nav-item active">
+            <a href="#" class="nav-link">
+              <i class="fas fa-home"></i>
+              <span class="nav-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-user"></i>
+              <span class="nav-text">Profile</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Analytics</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-calendar"></i>
+              <span class="nav-text">Calendar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-envelope"></i>
+              <span class="nav-text">Messages</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="nav-text">Logout</span>
+            </a>
+          </li>
+          
+          <!-- Extra items to demonstrate scrolling -->
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-book"></i>
+              <span class="nav-text">Documentation</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-bell"></i>
+              <span class="nav-text">Notifications</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Team</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-tasks"></i>
+              <span class="nav-text">Tasks</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <h1>Main Content</h1>
+      <p>This is the main content area. The sidebar can be toggled using the hamburger icon.</p>
+      <p>The sidebar is responsive and will adjust based on screen size.</p>
+      <p>Try resizing the window to see how it behaves on different screen sizes.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

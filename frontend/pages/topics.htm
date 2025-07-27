@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum Topics</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../public/css/custom.css">
+  <link rel="stylesheet" href="../public/css/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="theme-switcher">
+    <i class="fas fa-sun"></i>
+  </div>
+        <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+          <i class="fas fa-comments fa-2x me-3 text-primary"></i>
+          <h2 class="mb-0" id="forum-name">Forum Topics</h2>
+        </div>
+        <div id="topics-list" class="row">
+          <!-- Topics will be loaded here -->
+        </div>
+        <div class="card shadow-sm mt-4">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Create New Topic</h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <input type="text" id="new-topic-title" class="form-control" placeholder="Topic Title">
+            </div>
+            <button id="create-topic-btn" class="btn btn-primary">Create Topic</button>
+          </div>
+        </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const forumId = urlParams.get('forumId');
+      const forumName = urlParams.get('forumName');
+      if (forumName) {
+        document.getElementById('forum-name').textContent = forumName;
+      }
+      const fetchTopics = async () => {
+        try {
+          const response = await Promise.race([fetch(`/api/forums/forum/${forumId}/topics`, { signal: AbortSignal.timeout(10000) }), new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 10000))]);
+          const topics = await response.json();
+          const topicsList = document.getElementById('topics-list');
+          topicsList.innerHTML = ''; // Clear previous topics
+          if (topics.length === 0) {
+            topicsList.innerHTML = '<p>No topics in this forum yet. Be the first to create one!</p>';
+            return;
+          }
+          topics.forEach(topic => {
+            const topicCard = document.createElement('div');
+            topicCard.className = 'col-md-4 mb-4';
+            topicCard.innerHTML = `
+              <a href="posts.htm?topicId=${topic.id}&topicTitle=${encodeURIComponent(topic.title)}" class="card text-center p-3 shadow-sm h-100 d-flex flex-column justify-content-between text-decoration-none">
+                <div>
+                  <h5 class="card-title">${topic.title}</h5>
+                  <p class="card-text"><small class="text-muted">Started by: ${topic.user_type} (ID: ${topic.user_id}) on ${new Date(topic.created_at).toLocaleDateString()}</small></p>
+                </div>
+              </a>
+            `;
+            topicsList.appendChild(topicCard);
+          });
+        } catch (error) {
+          console.error('Error fetching topics:', error);
+          document.getElementById('topics-list').innerHTML = '<p>Error loading topics. Please try again later.</p>';
+        }
+      };
+      document.getElementById('create-topic-btn').addEventListener('click', async () => {
+        const title = document.getElementById('new-topic-title').value;
+        const userId = localStorage.getItem('userId') || 1; // Placeholder: Replace with actual user ID
+        const userType = localStorage.getItem('userType') || 'student'; // Placeholder: Replace with actual user type
+        if (title.trim() === '') {
+          alert('Topic title cannot be empty.');
+          return;
+        }
+        try {
+          const response = await Promise.race([fetch(`/api/forums/forum/${forumId}/topics`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId, userType, title }, { signal: AbortSignal.timeout(10000) }), new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 10000))]),
+          });
+          const result = await response.json();
+          if (response.ok) {
+            alert(result.message);
+            document.getElementById('new-topic-title').value = '';
+            fetchTopics(); // Refresh topics list
+          } else {
+            alert(`Error: ${result.error}`);
+          }
+        } catch (error) {
+          console.error('Error creating topic:', error);
+          alert('Failed to create topic.');
+        }
+      });
+      fetchTopics(); // Initial fetch
+    });
+  </script>
+  <script src="../public/js/sidebar-fix.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

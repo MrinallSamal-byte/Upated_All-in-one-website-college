@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Update Users</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../public/css/admin-global.css">
+  <link rel="stylesheet" href="../public/css/custom.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+        <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+          <i class="fas fa-user-edit fa-2x me-3 text-primary"></i>
+          <h2 class="mb-0">Update Users</h2>
+        </div>
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Update Student</h3>
+          </div>
+          <div class="card-body">
+            <form id="updateStudentForm">
+              <div class="mb-3">
+                <input type="text" id="studentRegisterNo" class="form-control" placeholder="Student Register No" required />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="studentName" class="form-control" placeholder="New Name" />
+              </div>
+              <div class="mb-3">
+                <input type="password" id="studentPassword" class="form-control" placeholder="New Password" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="studentDepartment" class="form-control" placeholder="New Department" />
+              </div>
+              <div class="mb-3">
+                <input type="number" id="studentSemester" class="form-control" placeholder="New Semester" />
+              </div>
+              <div class="mb-3">
+                <input type="email" id="studentEmail" class="form-control" placeholder="New Email" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="studentHostelBlock" class="form-control" placeholder="New Hostel Block" />
+              </div>
+              <button type="submit" class="btn btn-primary">Update Student</button>
+            </form>
+            <div id="updateStudentResult" class="mt-3 alert" style="display: none;"></div>
+          </div>
+        </div>
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Update Teacher</h3>
+          </div>
+          <div class="card-body">
+            <form id="updateTeacherForm">
+              <div class="mb-3">
+                <input type="text" id="teacherRegisterNo" class="form-control" placeholder="Teacher Register No" required />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="teacherName" class="form-control" placeholder="New Name" />
+              </div>
+              <div class="mb-3">
+                <input type="password" id="teacherPassword" class="form-control" placeholder="New Password" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="teacherDepartment" class="form-control" placeholder="New Department" />
+              </div>
+              <div class="mb-3">
+                <input type="email" id="teacherEmail" class="form-control" placeholder="New Email" />
+              </div>
+              <div class="mb-3">
+                <input type="text" id="teacherPhone" class="form-control" placeholder="New Phone" />
+              </div>
+              <button type="submit" class="btn btn-primary">Update Teacher</button>
+            </form>
+            <div id="updateTeacherResult" class="mt-3 alert" style="display: none;"></div>
+          </div>
+        </div>
+  <script type="module">
+          </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update Student Form Submission
+      document.getElementById('updateStudentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const registerNo = document.getElementById('studentRegisterNo').value;
+        const updateData = {};
+        if (document.getElementById('studentName').value) updateData.name = document.getElementById('studentName').value;
+        if (document.getElementById('studentPassword').value) updateData.password = document.getElementById('studentPassword').value;
+        if (document.getElementById('studentDepartment').value) updateData.department = document.getElementById('studentDepartment').value;
+        if (document.getElementById('studentSemester').value) updateData.semester = parseInt(document.getElementById('studentSemester').value);
+        if (document.getElementById('studentEmail').value) updateData.email = document.getElementById('studentEmail').value;
+        if (document.getElementById('studentHostelBlock').value) updateData.hostel_block = document.getElementById('studentHostelBlock').value;
+        try {
+          const response = await Promise.race([fetch(`http://localhost:5000/api/admin/students/${registerNo}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'admin-token': localStorage.getItem('adminToken', { signal: AbortSignal.timeout(10000) }), new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 10000))])
+            },
+            body: JSON.stringify(updateData)
+          });
+          const data = await response.json();
+          const updateStudentResult = document.getElementById('updateStudentResult');
+          updateStudentResult.textContent = data.message || data.error;
+          updateStudentResult.className = `mt-3 alert ${data.message ? 'alert-success' : 'alert-danger'}`;
+          updateStudentResult.style.display = 'block';
+        } catch (error) {
+          const updateStudentResult = document.getElementById('updateStudentResult');
+          updateStudentResult.textContent = 'Error updating student. Please try again.';
+          updateStudentResult.className = 'mt-3 alert alert-danger';
+          updateStudentResult.style.display = 'block';
+        }
+      });
+      // Update Teacher Form Submission
+      document.getElementById('updateTeacherForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const registerNo = document.getElementById('teacherRegisterNo').value;
+        const updateData = {};
+        if (document.getElementById('teacherName').value) updateData.name = document.getElementById('teacherName').value;
+        if (document.getElementById('teacherPassword').value) updateData.password = document.getElementById('teacherPassword').value;
+        if (document.getElementById('teacherDepartment').value) updateData.department = document.getElementById('teacherDepartment').value;
+        if (document.getElementById('teacherEmail').value) updateData.email = document.getElementById('teacherEmail').value;
+        if (document.getElementById('teacherPhone').value) updateData.phone = document.getElementById('teacherPhone').value;
+        try {
+          const response = await Promise.race([fetch(`http://localhost:5000/api/admin/teachers/${registerNo}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'admin-token': localStorage.getItem('adminToken', { signal: AbortSignal.timeout(10000) }), new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 10000))])
+            },
+            body: JSON.stringify(updateData)
+          });
+          const data = await response.json();
+          const updateTeacherResult = document.getElementById('updateTeacherResult');
+          updateTeacherResult.textContent = data.message || data.error;
+          updateTeacherResult.className = `mt-3 alert ${data.message ? 'alert-success' : 'alert-danger'}`;
+          updateTeacherResult.style.display = 'block';
+        } catch (error) {
+          const updateTeacherResult = document.getElementById('updateTeacherResult');
+          updateTeacherResult.textContent = 'Error updating teacher. Please try again.';
+          updateTeacherResult.className = 'mt-3 alert alert-danger';
+          updateTeacherResult.style.display = 'block';
+        }
+      });
+    });
+  </script>
+  <script src="../public/js/sidebar-fix.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

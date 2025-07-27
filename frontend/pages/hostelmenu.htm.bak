@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      table {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+      }
+      @media (max-width: 600px) {
+        table,
+        th,
+        td {
+          font-size: 14px;
+        }
+        ul {
+          padding: 0 10px;
+        }
+        .dark-toggle {
+          position: static;
+          width: 100%;
+        }
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <title>Hostel Menu Viewer</title>
+  </head>
+  <body>
+    <!-- Add this to the <body> section of each .htm file -->
+    <button class="dark-toggle" onclick="toggleDarkMode()">
+      🌙 Toggle Dark Mode
+    </button>
+    <script>
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        document
+          .querySelectorAll("table, th, td")
+          .forEach((el) => el.classList.toggle("dark-mode"));
+        localStorage.setItem(
+          "darkMode",
+          document.body.classList.contains("dark-mode")
+        );
+      }
+      // On page load, set dark mode if previously enabled
+      if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+        document
+          .querySelectorAll("table, th, td")
+          .forEach((el) => el.classList.add("dark-mode"));
+      }
+    </script>
+    <h2>Hostel Menu</h2>
+    
+    <div style="margin-bottom: 20px; text-align: center;">
+      <label for="hostelBlock">Select Your Hostel Block: </label>
+      <select id="hostelBlock" style="padding: 8px; border-radius: 4px; margin-right: 10px;">
+        <option value="">All Blocks</option>
+        <option value="A">Block A</option>
+        <option value="B">Block B</option>
+        <option value="C">Block C</option>
+        <option value="D">Block D</option>
+      </select>
+      <button onclick="loadHostelMenu()" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        View Menu
+      </button>
+    </div>
+    
+    <div id="todayMenu" style="margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #4CAF50; display: none;">
+      <h3 style="margin-top: 0;">Today's Menu</h3>
+      <div id="todayMenuContent"></div>
+    </div>
+    
+    <table id="menuTable" border="1">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Hostel Block</th>
+          <th>Breakfast</th>
+          <th>Lunch</th>
+          <th>Dinner</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    
+    <script>
+      // Try to get student's hostel block from profile
+      let studentHostelBlock = '';
+      const registerNo = localStorage.getItem("registerNo");
+      
+      // Fetch student profile to get hostel block
+      fetch(`http://localhost:5000/api/profile/student/${registerNo}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.hostel_block) {
+            studentHostelBlock = data.hostel_block;
+            document.getElementById('hostelBlock').value = studentHostelBlock;
+            loadHostelMenu();
+          } else {
+            loadHostelMenu();
+          }
+        })
+        .catch(() => loadHostelMenu());
+      
+      function loadHostelMenu() {
+        const hostelBlock = document.getElementById('hostelBlock').value;
+        const url = hostelBlock ? 
+          `http://localhost:5000/api/hostelmenu?block=${hostelBlock}` : 
+          "http://localhost:5000/api/hostelmenu";
+          
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => {
+            const tbody = document.querySelector("#menuTable tbody");
+            tbody.innerHTML = '';
+            
+            // Show today's menu at the top
+            const today = new Date().toISOString().split('T')[0];
+            const todayMenu = data.find(menu => menu.menu_date === today && 
+              (hostelBlock ? menu.hostel_block === hostelBlock : true));
+              
+            if (todayMenu) {
+              document.getElementById('todayMenu').style.display = 'block';
+              document.getElementById('todayMenuContent').innerHTML = `
+                <p><strong>Breakfast:</strong> ${todayMenu.breakfast}</p>
+                <p><strong>Lunch:</strong> ${todayMenu.lunch}</p>
+                <p><strong>Dinner:</strong> ${todayMenu.dinner}</p>
+                <p><strong>Hostel Block:</strong> ${todayMenu.hostel_block}</p>
+              `;
+            } else {
+              document.getElementById('todayMenu').style.display = 'none';
+            }
+            
+            // Show all menus in table
+            data.forEach((menu) => {
+              tbody.innerHTML += `<tr>
+                <td>${menu.menu_date}</td>
+                <td>${menu.hostel_block}</td>
+                <td>${menu.breakfast}</td>
+                <td>${menu.lunch}</td>
+                <td>${menu.dinner}</td>
+              </tr>`;
+            });
+          });
+      }
+    </script>
+  </body>
+</html>

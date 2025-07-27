@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Result - Academic Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .result-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .student-details {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-left: 4px solid #007bff;
+    }
+    .result-table {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+    .table th {
+      background-color: #343a40;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      vertical-align: middle;
+      border: none;
+    }
+    .table td {
+      text-align: center;
+      vertical-align: middle;
+      border-color: #dee2e6;
+    }
+    .semester-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .semester-link:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    .sgpa-high {
+      color: #28a745;
+      font-weight: bold;
+    }
+    .sgpa-medium {
+      color: #ffc107;
+      font-weight: bold;
+    }
+    .sgpa-low {
+      color: #dc3545;
+      font-weight: bold;
+    }
+    .notes-section {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    .notes-section p {
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #856404;
+    }
+    .notes-section p:last-child {
+      margin-bottom: 0;
+    }
+    @media (max-width: 768px) {
+      .result-header h2 {
+        font-size: 1.5rem;
+      }
+      .student-details {
+        padding: 15px;
+      }
+      .table-responsive {
+        font-size: 0.85rem;
+      }
+    }
+    body.dark-mode .student-details {
+      background: #2d2d2d;
+      color: #e0e0e0;
+      border-left-color: #6ea8fe;
+    }
+    body.dark-mode .result-table {
+      background: #1e1e1e;
+    }
+    body.dark-mode .table {
+      color: #e0e0e0;
+    }
+    body.dark-mode .table td {
+      border-color: #444;
+    }
+    body.dark-mode .notes-section {
+      background: #3d3d3d;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+    body.dark-mode .notes-section p {
+      color: #ffc107;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="result-header">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-book fa-2x me-3"></i>
+      <h2 class="mb-0">My Result</h2>
+    </div>
+  </div>
+
+  <!-- Student Details -->
+  <div class="student-details">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="mb-2"><strong>Enrollment No.:</strong> 24E119C17</p>
+        <p class="mb-2"><strong>Student Name:</strong> MRINALL SAMAL</p>
+        <p class="mb-2"><strong>Program:</strong> Bachelor of Technology</p>
+      </div>
+      <div class="col-md-6">
+        <p class="mb-2"><strong>Branch:</strong> Computer Science and Engineering</p>
+        <p class="mb-2"><strong>Lateral Entry:</strong> N</p>
+        <p class="mb-2"><strong>Current Semester:</strong> 2</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Table -->
+  <div class="result-table">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Semester</th>
+            <th>Point Secured</th>
+            <th>Course Credits</th>
+            <th>Earned Credits</th>
+            <th>SGPA</th>
+            <th>CGPA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="#" class="semester-link">1st SEM.</a></td>
+            <td>179.5</td>
+            <td>19</td>
+            <td>19</td>
+            <td><span class="sgpa-high">9.45</span></td>
+            <td><span class="sgpa-high">9.45</span></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="semester-link">2nd SEM.</a></td>
+            <td>162.0</td>
+            <td>18</td>
+            <td>18</td>
+            <td><span class="sgpa-high">9.00</span></td>
+            <td><span class="sgpa-high">9.23</span></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="semester-link">3rd SEM.</a></td>
+            <td>148.5</td>
+            <td>18</td>
+            <td>18</td>
+            <td><span class="sgpa-medium">8.25</span></td>
+            <td><span class="sgpa-high">8.90</span></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="semester-link">4th SEM.</a></td>
+            <td>155.0</td>
+            <td>19</td>
+            <td>19</td>
+            <td><span class="sgpa-medium">8.16</span></td>
+            <td><span class="sgpa-medium">8.71</span></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="semester-link">5th SEM.</a></td>
+            <td>171.5</td>
+            <td>20</td>
+            <td>20</td>
+            <td><span class="sgpa-high">8.58</span></td>
+            <td><span class="sgpa-medium">8.69</span></td>
+          </tr>
+          <tr>
+            <td><a href="#" class="semester-link">6th SEM.</a></td>
+            <td>164.0</td>
+            <td>19</td>
+            <td>19</td>
+            <td><span class="sgpa-medium">8.63</span></td>
+            <td><span class="sgpa-medium">8.68</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav aria-label="Result pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      <li class="page-item active">
+        <a class="page-link" href="#">1</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">2</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">3</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Notes Section -->
+  <div class="notes-section">
+    <p><i class="fas fa-exclamation-triangle me-2"></i>Note 1: Please Contact Our University Office in case any dispute or mismatch in data.</p>
+    <p><i class="fas fa-desktop me-2"></i>Note 2: This is a Computer Generated Report.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Embedded sidebar script with profile avatar
+    (function() {
+      if (document.querySelector('.sidebar')) return;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 250px;
+          height: 100vh;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          overflow-y: auto;
+          z-index: 1050;
+          transition: width 0.3s ease;
+          box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar.collapsed {
+          width: 70px;
+        }
+        .sidebar-header {
+          padding: 15px;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .toggle-btn {
+          background: none;
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+        }
+        .toggle-btn:hover {
+          background-color: rgba(255,255,255,0.1);
+        }
+        .sidebar .nav-link {
+          transition: all 0.3s ease;
+          position: relative;
+        }
+        .sidebar .nav-link:hover {
+          transform: translateX(5px);
+        }
+        .nav-text {
+          opacity: 1;
+          transition: opacity 0.3s ease;
+          margin-left: 10px;
+        }
+        .sidebar.collapsed .nav-text {
+          opacity: 0;
+        }
+        .collapsed-toggle {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          background: rgba(255,255,255,0.1);
+          border: none;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 4px;
+          transition: all 0.3s ease;
+          opacity: 0;
+          visibility: hidden;
+        }
+        .sidebar.collapsed .collapsed-toggle {
+          opacity: 1;
+          visibility: visible;
+        }
+        .collapsed-toggle:hover {
+          background-color: rgba(255,255,255,0.2);
+        }
+        .sidebar.collapsed .nav-link::after {
+          content: attr(data-tooltip);
+          position: absolute;
+          left: 70px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0,0,0,0.8);
+          color: white;
+          padding: 8px 12px;
+          border-radius: 4px;
+          font-size: 14px;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+          z-index: 1001;
+        }
+        .sidebar.collapsed .nav-link:hover::after {
+          opacity: 1;
+          visibility: visible;
+        }
+        .content {
+          margin-left: 250px;
+          padding: 15px;
+          transition: margin-left 0.3s ease;
+        }
+        .sidebar.collapsed + * .content,
+        body:has(.sidebar.collapsed) .content {
+          margin-left: 70px;
+        }
+        .profile-avatar {
+          position: fixed;
+          top: 15px;
+          right: 15px;
+          z-index: 1060;
+        }
+        .theme-toggle {
+          position: fixed;
+          top: 15px;
+          right: 70px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #f8f9fa;
+          border: 1px solid #dee2e6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 1060;
+          transition: all 0.3s ease;
+        }
+        .theme-toggle:hover {
+          background: #e9ecef;
+        }
+        .avatar-container {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+        }
+        .avatar-img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(45deg, #007bff, #0056b3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 16px;
+          border: 3px solid #28a745;
+          box-sizing: border-box;
+        }
+        .avatar-dropdown {
+          position: absolute;
+          top: 50px;
+          right: 0;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          min-width: 150px;
+          display: none;
+        }
+        .avatar-dropdown.show {
+          display: block;
+        }
+        .dropdown-item {
+          padding: 10px 15px;
+          cursor: pointer;
+          border-bottom: 1px solid #f0f0f0;
+          color: #333;
+          text-decoration: none;
+          display: block;
+        }
+        .dropdown-item:hover {
+          background-color: #f8f9fa;
+        }
+        .dropdown-item:last-child {
+          border-bottom: none;
+        }
+        @media (max-width: 767.98px) {
+          .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+          }
+          .sidebar.show {
+            transform: translateX(0);
+          }
+          .content {
+            margin-left: 0;
+          }
+          .sidebar-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1060;
+          }
+          .profile-avatar {
+            top: 10px;
+            right: 10px;
+          }
+          .theme-toggle {
+            top: 10px;
+            right: 65px;
+          }
+        }
+        .sidebar .nav-link {
+          color: white;
+          padding: 8px 16px;
+        }
+        .sidebar .nav-link:hover {
+          background-color: rgba(255,255,255,0.1);
+        }
+        body.dark-mode {
+          background-color: #121212 !important;
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .card {
+          background-color: #1e1e1e !important;
+          border-color: #333 !important;
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .card-header {
+          background-color: #2d2d2d !important;
+          color: #ffffff !important;
+        }
+        body.dark-mode .avatar-dropdown {
+          background: #2d2d2d;
+          border-color: #444;
+        }
+        body.dark-mode .dropdown-item {
+          color: #e0e0e0;
+          border-color: #444;
+        }
+        body.dark-mode .dropdown-item:hover {
+          background-color: #3d3d3d;
+        }
+        body.dark-mode .theme-toggle {
+          background: #2d2d2d;
+          border-color: #444;
+          color: #e0e0e0;
+        }
+        body.dark-mode .theme-toggle:hover {
+          background: #3d3d3d;
+        }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+          color: #ffffff !important;
+        }
+        body.dark-mode p, body.dark-mode span, body.dark-mode div, body.dark-mode li {
+          color: #e0e0e0 !important;
+        }
+        body.dark-mode .text-muted {
+          color: #adb5bd !important;
+        }
+        body.dark-mode .pagination .page-link {
+          background-color: #1e1e1e;
+          border-color: #444;
+          color: #e0e0e0;
+        }
+        body.dark-mode .pagination .page-item.active .page-link {
+          background-color: #007bff;
+          border-color: #007bff;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      const sidebar = document.createElement('div');
+      sidebar.className = 'sidebar';
+      sidebar.innerHTML = `
+        <button class="collapsed-toggle" id="collapsedToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="sidebar-header">
+          <div class="d-flex align-items-center">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:40px;height:40px;font-size:18px;">S</div>
+            <div class="fs-6 fw-bold text-white nav-text" id="sidebarStudentName">Student</div>
+          </div>
+          <button class="toggle-btn" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link text-white" href="dashboard.htm" data-tooltip="Dashboard"><i class="fas fa-home me-2"></i><span class="nav-text">Dashboard</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="attendance.htm" data-tooltip="Attendance"><i class="fas fa-chart-bar me-2"></i><span class="nav-text">Attendance</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="marks.htm" data-tooltip="Marks"><i class="fas fa-graduation-cap me-2"></i><span class="nav-text">Marks</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="admitcard.htm" data-tooltip="Admit Card"><i class="fas fa-id-card me-2"></i><span class="nav-text">Admit Card</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="hostelmenu.htm" data-tooltip="Hostel Menu"><i class="fas fa-utensils me-2"></i><span class="nav-text">Hostel Menu</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="timetable.htm" data-tooltip="Timetable"><i class="fas fa-calendar-alt me-2"></i><span class="nav-text">Timetable</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="notes.htm" data-tooltip="Notes"><i class="fas fa-book me-2"></i><span class="nav-text">Notes</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="events.htm" data-tooltip="Events"><i class="fas fa-calendar-day me-2"></i><span class="nav-text">Events</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="clubs.htm" data-tooltip="Clubs"><i class="fas fa-users me-2"></i><span class="nav-text">Clubs</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="profile.htm" data-tooltip="Profile"><i class="fas fa-user me-2"></i><span class="nav-text">Profile</span></a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#" onclick="localStorage.clear(); window.location.href='/login.html';"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+        </ul>
+      `;
+      
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'sidebar-toggle btn btn-primary d-md-none';
+      toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      toggleBtn.onclick = () => sidebar.classList.toggle('show');
+      
+      // Create theme toggle button
+      const themeToggle = document.createElement('button');
+      themeToggle.className = 'theme-toggle';
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      themeToggle.onclick = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      };
+      
+      // Create profile avatar
+      const profileAvatar = document.createElement('div');
+      profileAvatar.className = 'profile-avatar';
+      profileAvatar.innerHTML = `
+        <div class="avatar-container">
+          <div class="avatar-img" id="avatarImg">S</div>
+          <div class="avatar-dropdown" id="avatarDropdown">
+            <a href="profile.htm" class="dropdown-item"><i class="fas fa-user me-2"></i>Profile</a>
+            <a href="#" class="dropdown-item" onclick="showIDCard()"><i class="fas fa-id-card me-2"></i>Show ID Card</a>
+            <a href="#" class="dropdown-item" onclick="changePhoto()"><i class="fas fa-camera me-2"></i>Change Photo</a>
+            <a href="#" class="dropdown-item" onclick="toggleDarkMode()"><i class="fas fa-cog me-2"></i>Settings</a>
+            <a href="#" class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertBefore(sidebar, document.body.firstChild);
+      document.body.insertBefore(toggleBtn, document.body.firstChild);
+      document.body.insertBefore(themeToggle, document.body.firstChild);
+      document.body.insertBefore(profileAvatar, document.body.firstChild);
+      
+      const content = document.createElement('div');
+      content.className = 'content';
+      const elementsToMove = Array.from(document.body.children).filter(child => 
+        child !== sidebar && child !== toggleBtn && child !== themeToggle && child !== profileAvatar &&
+        child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE'
+      );
+      elementsToMove.forEach(element => content.appendChild(element));
+      document.body.appendChild(content);
+      
+      // Update avatar with user initial
+      const userName = localStorage.getItem('userName') || 'Student';
+      // Update all student name references
+      const studentNameElements = document.querySelectorAll('#studentName, #profileName, .student-name');
+      studentNameElements.forEach(element => {
+        if (element) element.textContent = userName;
+      });
+      // Update sidebar student name
+      const sidebarStudentName = document.getElementById('sidebarStudentName');
+      if (sidebarStudentName) {
+        sidebarStudentName.textContent = userName;
+      }
+      const savedAvatar = localStorage.getItem('userAvatar');
+      const avatarImg = document.getElementById('avatarImg');
+      
+      if (savedAvatar) {
+        avatarImg.style.backgroundImage = `url(${savedAvatar})`;
+        avatarImg.style.backgroundSize = 'cover';
+        avatarImg.style.backgroundPosition = 'center';
+        avatarImg.textContent = '';
+      } else {
+        avatarImg.textContent = userName.charAt(0).toUpperCase();
+      }
+      
+      // Avatar dropdown functionality
+      document.getElementById('avatarImg').onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('show');
+      };
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        document.getElementById('avatarDropdown').classList.remove('show');
+      });
+      
+      // Global functions
+      window.showIDCard = function() {
+        const userName = localStorage.getItem('userName') || 'Student';
+        const registerNo = localStorage.getItem('registerNo') || 'REG123456';
+        const savedAvatar = localStorage.getItem('userAvatar');
+        
+        const modal = document.createElement('div');
+        modal.className = 'id-card-modal';
+        modal.innerHTML = `
+          <div class="id-card">
+            <button class="id-card-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+            <div class="id-card-header">
+              <h6>ITER STUDENT ID</h6>
+            </div>
+            <div class="id-card-photo" id="modalPhoto">${savedAvatar ? '' : userName.charAt(0).toUpperCase()}</div>
+            <div class="id-card-info">
+              <div class="id-card-name">${userName}</div>
+              <div class="id-card-reg">${registerNo}</div>
+              <div class="id-card-details">
+                <div>Computer Science & Engineering</div>
+                <div>Semester: 6</div>
+                <div>Valid Until: Dec 2024</div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        if (savedAvatar) {
+          modal.querySelector('#modalPhoto').style.backgroundImage = `url(${savedAvatar})`;
+          modal.querySelector('#modalPhoto').style.backgroundSize = 'cover';
+          modal.querySelector('#modalPhoto').style.backgroundPosition = 'center';
+        }
+        
+        modal.style.display = 'flex';
+        document.body.appendChild(modal);
+        
+        modal.onclick = function(e) {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        };
+        
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+
+      window.changePhoto = function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const avatarImg = document.getElementById('avatarImg');
+              avatarImg.style.backgroundImage = `url(${e.target.result})`;
+              avatarImg.style.backgroundSize = 'cover';
+              avatarImg.style.backgroundPosition = 'center';
+              avatarImg.textContent = '';
+              localStorage.setItem('userAvatar', e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+        input.click();
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+
+      window.toggleDarkMode = function() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        document.getElementById('avatarDropdown').classList.remove('show');
+      };
+
+      window.logout = function() {
+        localStorage.clear();
+        window.location.href = '/login.html';
+      };
+      
+      // Apply dark mode if saved
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    })();
+
+      // Sidebar toggle functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const collapsedToggle = document.getElementById('collapsedToggle');
+        
+        function toggleSidebar() {
+          sidebar.classList.toggle('collapsed');
+          localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+        
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', toggleSidebar);
+        }
+        
+        if (collapsedToggle) {
+          collapsedToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        // Restore sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+          sidebar.classList.add('collapsed');
+        }
+      });
+  </script>
+</body>
+</html>

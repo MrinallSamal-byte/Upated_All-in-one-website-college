@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Marks</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../public/css/admin-global.css">
+  <link rel="stylesheet" href="../public/css/custom.css">
+  <link rel="stylesheet" href="../public/css/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="theme-switcher">
+    <i class="fas fa-sun"></i>
+  </div>
+        <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+          <i class="fas fa-graduation-cap fa-2x me-3 text-primary"></i>
+          <h2 class="mb-0">Manage Marks</h2>
+        </div>
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-graduation-cap me-2"></i> Manage Marks</h3>
+          </div>
+          <div class="card-body">
+            <h2 id="subjectTitle" class="card-title">Subject Name</h2>
+            <p id="semesterDept" class="card-text">Semester - Department</p>
+            <div id="marksForm">
+              <p>Loading students...</p>
+            </div>
+            <div id="marksResult" class="mt-3 alert" style="display: none;"></div>
+          </div>
+        </div>
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-info-circle me-2"></i> Instructions</h3>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li>Enter marks for Mid Term (out of 100) and Internal Assessment (out of 100)</li>
+              <li>Click "Save" to update marks for individual students</li>
+              <li>Click "Save All Marks" to update marks for all students at once</li>
+              <li>Changes are saved to the database immediately</li>
+            </ul>
+          </div>
+        </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentSubject = localStorage.getItem('currentSubject');
+      const currentSemester = localStorage.getItem('currentSemester');
+      const currentDepartment = localStorage.getItem('currentDepartment');
+      if (currentSubject && currentSemester && currentDepartment) {
+        document.getElementById('subjectTitle').textContent = currentSubject;
+        document.getElementById('semesterDept').textContent = `Semester ${currentSemester} - ${currentDepartment}`;
+        loadStudents();
+      } else {
+        document.getElementById('marksForm').innerHTML = '<p>Please select a subject from the dashboard.</p>';
+        document.getElementById('subjectTitle').textContent = 'No Subject Selected';
+        document.getElementById('semesterDept').textContent = '';
+      }
+    });
+    // Load students for the selected subject
+    async function loadStudents() {
+      try {
+        const subject = localStorage.getItem('currentSubject');
+        const semester = localStorage.getItem('currentSemester');
+        const department = localStorage.getItem('currentDepartment');
+        const res = await fetch(`http://localhost:5000/api/teacher/students?subject=${subject}&semester=${semester}&department=${department}`, {
+          headers: {
+            'teacher-token': localStorage.getItem('teacherToken', { signal: AbortSignal.timeout(10000) })
+          }
+        });
+        const data = await res.json();
+        const marksForm = document.getElementById('marksForm');
+        if (data.length === 0) {
+          marksForm.innerHTML = '<p class="alert alert-info">No students found for this subject.</p>';
+          return;
+        }
+        let html = `
+          <table id="marksTable" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Register No</th>
+                <th>Student Name</th>
+                <th>Mid Term</th>
+                <th>Internal</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        data.forEach(student => {
+          html += `
+            <tr data-student-id="${student.id}" data-register-no="${student.register_no}">
+              <td>${student.register_no}</td>
+              <td>${student.name}</td>
+              <td><input type="number" class="form-control form-control-sm marks-input" name="mid_term" value="${student.mid_term || 0}" min="0" max="100"></td>
+              <td><input type="number" class="form-control form-control-sm marks-input" name="internal" value="${student.internal || 0}" min="0" max="100"></td>
+              <td><button onclick="saveMarks(${student.id}, '${student.register_no}')" class="btn btn-sm btn-success">Save</button></td>
+            </tr>
+          `;
+        });
+        html += `
+            </tbody>
+          </table>
+          <button onclick="saveAllMarks()" class="btn btn-primary mt-3">Save All Marks</button>
+        `;
+        marksForm.innerHTML = html;
+      } catch (error) {
+        console.error('Error loading students:', error);
+        document.getElementById('marksForm').innerHTML = '<p class="alert alert-danger">Error loading students. Please try again later.</p>';
+      }
+    }
+    // Save marks for a single student
+    async function saveMarks(studentId, registerNo) {
+      try {
+        const row = document.querySelector(`tr[data-student-id="${studentId}"]`);
+        const midTerm = row.querySelector('input[name="mid_term"]').value;
+        const internal = row.querySelector('input[name="internal"]').value;
+        const subject = localStorage.getItem('currentSubject');
+        const semester = localStorage.getItem('currentSemester');
+        const res = await fetch('http://localhost:5000/api/teacher/marks/update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'teacher-token': localStorage.getItem('teacherToken', { signal: AbortSignal.timeout(10000) })
+          },
+          body: JSON.stringify({
+            studentId,
+            registerNo,
+            subject,
+            semester,
+            midTerm,
+            internal
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showMessage(`Marks updated for ${registerNo}`, 'success');
+        } else {
+          showMessage(data.error || 'Failed to update marks', 'error');
+        }
+      } catch (error) {
+        console.error('Error saving marks:', error);
+        showMessage('Error saving marks. Please try again.', 'error');
+      }
+    }
+    // Save marks for all students
+    async function saveAllMarks() {
+      try {
+        const rows = document.querySelectorAll('#marksTable tbody tr');
+        const subject = localStorage.getItem('currentSubject');
+        const semester = localStorage.getItem('currentSemester');
+        const marksData = [];
+        rows.forEach(row => {
+          const studentId = row.dataset.studentId;
+          const registerNo = row.dataset.registerNo;
+          const midTerm = row.querySelector('input[name="mid_term"]').value;
+          const internal = row.querySelector('input[name="internal"]').value;
+          marksData.push({
+            studentId,
+            registerNo,
+            subject,
+            semester,
+            midTerm,
+            internal
+          });
+        });
+        const res = await fetch('http://localhost:5000/api/teacher/marks/bulk-update', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'teacher-token': localStorage.getItem('teacherToken', { signal: AbortSignal.timeout(10000) })
+          },
+          body: JSON.stringify({ marks: marksData })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showMessage(`Marks updated for ${marksData.length} students`, 'success');
+        } else {
+          showMessage(data.error || 'Failed to update marks', 'error');
+        }
+      } catch (error) {
+        console.error('Error saving all marks:', error);
+        showMessage('Error saving marks. Please try again.', 'error');
+      }
+    }
+    // Show message
+    function showMessage(message, type = 'info') {
+      const resultDiv = document.getElementById('marksResult');
+      resultDiv.textContent = message;
+      resultDiv.className = `mt-3 alert ${type === 'success' ? 'alert-success' : type === 'error' ? 'alert-danger' : 'alert-info'}`;
+      resultDiv.style.display = 'block';
+      setTimeout(() => {
+        resultDiv.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+  <script src="../public/js/sidebar-fix.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

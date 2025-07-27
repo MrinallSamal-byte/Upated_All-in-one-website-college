@@ -1,0 +1,10 @@
+{
+  "name": "eduscanplus-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for EduScanPlus College Portal",
+  "main": "index.js",
+  "scripts": {
+  },
+  "dependencies": {
+  }
+}

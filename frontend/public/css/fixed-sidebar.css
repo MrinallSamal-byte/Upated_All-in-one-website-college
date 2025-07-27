@@ -1,0 +1,88 @@
+/* Fixed sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: var(--dark, #212529);
+  color: var(--light, #f8f9fa);
+  z-index: 1050;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Content area adjustment */
+.content {
+  transition: margin-left 0.3s ease;
+  width: 100%;
+  padding: 15px;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1060;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Media query for desktop screens */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0); /* Always visible on desktop */
+  }
+  
+  .content {
+    margin-left: 250px; /* Match sidebar width */
+    width: calc(100% - 250px);
+  }
+  
+  .sidebar-toggle {
+    display: none; /* Hide toggle button on desktop */
+  }
+}
+
+/* Mobile view */
+@media (max-width: 767.98px) {
+  .sidebar {
+    transform: translateX(-100%); /* Hidden by default on mobile */
+  }
+  
+  .sidebar.show {
+    transform: translateX(0); /* Show when toggled */
+  }
+  
+  .content {
+    margin-left: 0;
+    padding-top: 60px; /* Space for the toggle button */
+  }
+}
+
+/* Ensure sidebar elements are properly styled */
+.sidebar-header {
+  padding: 1rem;
+}
+
+.sidebar .nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  margin: 0.2rem 0;
+  transition: all 0.2s;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--primary, #0d6efd);
+}

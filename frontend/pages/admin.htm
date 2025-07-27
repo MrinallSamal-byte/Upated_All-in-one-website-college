@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    .profile-avatar {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1060;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 70px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1060;
+      transition: all 0.3s ease;
+    }
+    .theme-toggle:hover {
+      background: #e9ecef;
+    }
+    .avatar-container {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+    .avatar-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #dc3545, #c82333);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      border: 3px solid #dc3545;
+      box-sizing: border-box;
+    }
+    .avatar-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 150px;
+      display: none;
+    }
+    .avatar-dropdown.show {
+      display: block;
+    }
+    .dropdown-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-item:hover {
+      background-color: #f8f9fa;
+    }
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    @media (max-width: 767.98px) {
+      .profile-avatar {
+        top: 10px;
+        right: 10px;
+      }
+      .theme-toggle {
+        top: 10px;
+        right: 65px;
+      }
+    }
+    body.dark-mode {
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .card {
+      background-color: #1e1e1e !important;
+      border-color: #333 !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .card-header {
+      background-color: #2d2d2d !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .avatar-dropdown {
+      background: #2d2d2d;
+      border-color: #444;
+    }
+    body.dark-mode .dropdown-item {
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    body.dark-mode .dropdown-item:hover {
+      background-color: #3d3d3d;
+    }
+    body.dark-mode .theme-toggle {
+      background: #2d2d2d;
+      border-color: #444;
+      color: #e0e0e0;
+    }
+    body.dark-mode .theme-toggle:hover {
+      background: #3d3d3d;
+    }
+    body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+      color: #ffffff !important;
+    }
+    body.dark-mode p, body.dark-mode span, body.dark-mode div, body.dark-mode li {
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .text-muted {
+      color: #adb5bd !important;
+    }
+    body.dark-mode .table {
+      color: #e0e0e0 !important;
+      background-color: #1e1e1e !important;
+    }
+    body.dark-mode .table th, body.dark-mode .table td {
+      color: #e0e0e0 !important;
+      border-color: #333 !important;
+    }
+    body.dark-mode .form-control, body.dark-mode .form-select {
+      background-color: #2d2d2d !important;
+      border-color: #444 !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .modal-content {
+      background-color: #1e1e1e !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > td {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    body.dark-mode .table-hover > tbody > tr:hover > td {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    body.dark-mode .btn-warning {
+      color: #000 !important;
+    }
+    body.dark-mode .btn-danger {
+      color: #fff !important;
+    }
+    body.dark-mode .input-group-text {
+      background-color: #2d2d2d !important;
+      border-color: #444 !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .alert-warning {
+      background-color: #664d03 !important;
+      border-color: #997404 !important;
+      color: #ffecb5 !important;
+    }
+    body.dark-mode .alert-info {
+      background-color: #055160 !important;
+      border-color: #087990 !important;
+      color: #b6effb !important;
+    }
+    body.dark-mode .modal-header {
+      background-color: #2d2d2d !important;
+      border-bottom-color: #444 !important;
+    }
+    body.dark-mode .modal-footer {
+      background-color: #2d2d2d !important;
+      border-top-color: #444 !important;
+    }
+    body.dark-mode .btn-close {
+      filter: invert(1);
+    }
+    body.dark-mode .alert-success {
+      background-color: #0f5132 !important;
+      border-color: #146c43 !important;
+      color: #d1e7dd !important;
+    }
+    body.dark-mode .alert-danger {
+      background-color: #842029 !important;
+      border-color: #b02a37 !important;
+      color: #f8d7da !important;
+    }
+    body.dark-mode .list-group-item-action:hover {
+      background-color: #2d2d2d !important;
+    }
+    body.dark-mode .nav-pills .nav-link.active {
+      background-color: #0d6efd !important;
+    }
+    body.dark-mode .nav-pills .nav-link {
+      color: #e0e0e0 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex align-items-center mb-4 border-bottom pb-2">
+    <i class="fas fa-user-shield fa-2x me-3 text-danger"></i>
+    <h2 class="mb-0">Admin Dashboard</h2>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body text-center">
+          <i class="fas fa-users fa-2x mb-2"></i>
+          <h4>1,250</h4>
+          <p class="mb-0">Total Students</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body text-center">
+          <i class="fas fa-chalkboard-teacher fa-2x mb-2"></i>
+          <h4>85</h4>
+          <p class="mb-0">Teachers</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-info text-white">
+        <div class="card-body text-center">
+          <i class="fas fa-book fa-2x mb-2"></i>
+          <h4>342</h4>
+          <p class="mb-0">Notes Uploaded</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body text-center">
+          <i class="fas fa-file-alt fa-2x mb-2"></i>
+          <h4>156</h4>
+          <p class="mb-0">PYQs Available</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Actions -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-center h-100">
+        <div class="card-body">
+          <i class="fas fa-upload fa-3x text-primary mb-3"></i>
+          <h5>Upload Academic Content</h5>
+          <p class="text-muted">Upload notes, PYQs, and study materials</p>
+          <button class="btn btn-primary" onclick="showSection('upload')">Manage Uploads</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center h-100">
+        <div class="card-body">
+          <i class="fas fa-users fa-3x text-success mb-3"></i>
+          <h5>Student Management</h5>
+          <p class="text-muted">Add, edit, and manage student records</p>
+          <button class="btn btn-success" onclick="showSection('students')">Manage Students</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center h-100">
+        <div class="card-body">
+          <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+          <h5>Academic Records</h5>
+          <p class="text-muted">Update attendance, marks, and grades</p>
+          <button class="btn btn-info" onclick="showSection('records')">Manage Records</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Section -->
+  <div id="upload-section" class="section" style="display:none;">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Academic Content Upload</h5>
+      </div>
+      <div class="card-body">
+        <ul class="nav nav-pills mb-3" id="uploadTabs">
+          <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#notes-upload">Notes</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pyq-upload">PYQs</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#books-upload">Books</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#syllabus-upload">Syllabus</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#timetable-upload">Timetable</button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- Notes Upload -->
+          <div class="tab-pane fade show active" id="notes-upload">
+            <form id="notesForm" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="form-label">Branch/Department</label>
+                  <select class="form-select" name="branch" required>
+                    <option value="">Select Branch</option>
+                    <option value="CSE">Computer Science & Engineering</option>
+                    <option value="ECE">Electronics & Communication</option>
+                    <option value="EEE">Electrical & Electronics</option>
+                    <option value="MECH">Mechanical Engineering</option>
+                    <option value="CIVIL">Civil Engineering</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Semester</label>
+                  <select class="form-select" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">1st Semester</option>
+                    <option value="2">2nd Semester</option>
+                    <option value="3">3rd Semester</option>
+                    <option value="4">4th Semester</option>
+                    <option value="5">5th Semester</option>
+                    <option value="6">6th Semester</option>
+                    <option value="7">7th Semester</option>
+                    <option value="8">8th Semester</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Subject</label>
+                  <select class="form-select" name="subject" required>
+                    <option value="">Select Subject</option>
+                    <option value="Data Structures">Data Structures</option>
+                    <option value="Database Systems">Database Systems</option>
+                    <option value="Computer Networks">Computer Networks</option>
+                    <option value="Operating Systems">Operating Systems</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="All Subjects">All Subjects (General)</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Title</label>
+                  <input type="text" class="form-control" name="title" placeholder="e.g., Chapter 1 - Introduction" required>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <label class="form-label">Upload File</label>
+                  <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx,.ppt,.pptx" required>
+                  <small class="text-muted">Supported formats: PDF, DOC, DOCX, PPT, PPTX</small>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary mt-3">Upload Notes</button>
+            </form>
+          </div>
+
+          <!-- PYQ Upload -->
+          <div class="tab-pane fade" id="pyq-upload">
+            <form id="pyqForm" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-4">
+                  <label class="form-label">Branch</label>
+                  <select class="form-select" name="branch" required>
+                    <option value="">Select Branch</option>
+                    <option value="CSE">Computer Science</option>
+                    <option value="ECE">Electronics & Communication</option>
+                    <option value="EEE">Electrical & Electronics</option>
+                    <option value="MECH">Mechanical</option>
+                    <option value="CIVIL">Civil</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Semester</label>
+                  <select class="form-select" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">1st Semester</option>
+                    <option value="2">2nd Semester</option>
+                    <option value="3">3rd Semester</option>
+                    <option value="4">4th Semester</option>
+                    <option value="5">5th Semester</option>
+                    <option value="6">6th Semester</option>
+                    <option value="7">7th Semester</option>
+                    <option value="8">8th Semester</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Subject</label>
+                  <select class="form-select" name="subject" required>
+                    <option value="">Select Subject</option>
+                    <option value="Data Structures">Data Structures</option>
+                    <option value="Database Systems">Database Systems</option>
+                    <option value="Computer Networks">Computer Networks</option>
+                    <option value="Operating Systems">Operating Systems</option>
+                    <option value="All Subjects">All Subjects</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <label class="form-label">Exam Type</label>
+                  <select class="form-select" name="exam_type" required>
+                    <option value="">Select Type</option>
+                    <option value="Mid-Term">Mid-Term Exam</option>
+                    <option value="End-Term">End-Term Exam</option>
+                    <option value="Quiz">Quiz/Test</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Year</label>
+                  <select class="form-select" name="year" required>
+                    <option value="">Select Year</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Upload PYQ</label>
+                  <input type="file" class="form-control" name="file" accept=".pdf" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-warning mt-3">Upload PYQ</button>
+            </form>
+          </div>
+
+          <!-- Books Upload -->
+          <div class="tab-pane fade" id="books-upload">
+            <form id="booksForm" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="form-label">Book Title</label>
+                  <input type="text" class="form-control" name="title" placeholder="e.g., Introduction to Algorithms" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Author(s)</label>
+                  <input type="text" class="form-control" name="author" placeholder="e.g., Cormen, Leiserson, Rivest" required>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Subject Category</label>
+                  <select class="form-select" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Algorithms">Algorithms & Data Structures</option>
+                    <option value="Database">Database Systems</option>
+                    <option value="Networks">Computer Networks</option>
+                    <option value="OS">Operating Systems</option>
+                    <option value="General">General Reference</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Upload Book PDF</label>
+                  <input type="file" class="form-control" name="file" accept=".pdf" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success mt-3">Upload Book</button>
+            </form>
+          </div>
+
+          <!-- Syllabus Upload -->
+          <div class="tab-pane fade" id="syllabus-upload">
+            <form id="syllabusForm" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-4">
+                  <label class="form-label">Branch</label>
+                  <select class="form-select" name="branch" required>
+                    <option value="">Select Branch</option>
+                    <option value="CSE">Computer Science</option>
+                    <option value="ECE">Electronics & Communication</option>
+                    <option value="EEE">Electrical & Electronics</option>
+                    <option value="MECH">Mechanical</option>
+                    <option value="CIVIL">Civil</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Semester</label>
+                  <select class="form-select" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">1st Semester</option>
+                    <option value="2">2nd Semester</option>
+                    <option value="3">3rd Semester</option>
+                    <option value="4">4th Semester</option>
+                    <option value="5">5th Semester</option>
+                    <option value="6">6th Semester</option>
+                    <option value="7">7th Semester</option>
+                    <option value="8">8th Semester</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Academic Year</label>
+                  <select class="form-select" name="academic_year" required>
+                    <option value="">Select Year</option>
+                    <option value="2024-25">2024-25</option>
+                    <option value="2023-24">2023-24</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <label class="form-label">Upload Syllabus</label>
+                  <input type="file" class="form-control" name="file" accept=".pdf" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-info mt-3">Upload Syllabus</button>
+            </form>
+          </div>
+
+          <!-- Timetable Upload -->
+          <div class="tab-pane fade" id="timetable-upload">
+            <form id="timetableForm" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-4">
+                  <label class="form-label">Branch</label>
+                  <select class="form-select" name="branch" required>
+                    <option value="">Select Branch</option>
+                    <option value="CSE">Computer Science</option>
+                    <option value="ECE">Electronics & Communication</option>
+                    <option value="EEE">Electrical & Electronics</option>
+                    <option value="MECH">Mechanical</option>
+                    <option value="CIVIL">Civil</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Semester</label>
+                  <select class="form-select" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">1st Semester</option>
+                    <option value="2">2nd Semester</option>
+                    <option value="3">3rd Semester</option>
+                    <option value="4">4th Semester</option>
+                    <option value="5">5th Semester</option>
+                    <option value="6">6th Semester</option>
+                    <option value="7">7th Semester</option>
+                    <option value="8">8th Semester</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Academic Year</label>
+                  <select class="form-select" name="academic_year" required>
+                    <option value="">Select Year</option>
+                    <option value="2024-25">2024-25</option>
+                    <option value="2023-24">2023-24</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <label class="form-label">Upload Timetable</label>
+                  <input type="file" class="form-control" name="file" accept=".pdf,.jpg,.jpeg,.png" required>
+                  <small class="text-muted">Supported formats: PDF, JPG, PNG</small>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success mt-3">Upload Timetable</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Students Section -->
+  <div id="students-section" class="section" style="display:none;">
+    <div class="card">
+      <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Student Management</h5>
+        <button class="btn btn-light btn-sm" onclick="showAddStudent()">
+          <i class="fas fa-plus me-1"></i>Add New Student
+        </button>
+      </div>
+      <div class="card-body">
+        <!-- Search Section -->
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" id="studentSearch" placeholder="Search by Register Number or Name">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" onclick="searchStudents()">
+              <i class="fas fa-search me-1"></i>Search
+            </button>
+            <button class="btn btn-secondary ms-2" onclick="loadStudents()">
+              <i class="fas fa-refresh me-1"></i>Reset
+            </button>
+          </div>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Register No</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Email</th>
+                
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTable">
+              <tr><td colspan="5" class="text-center">Loading students...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Student Modal -->
+  <div class="modal fade" id="studentModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="studentModalTitle">Add New Student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="studentForm">
+            <input type="hidden" id="studentId">
+            <div class="mb-3">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-control" id="studentName" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Registration Number *</label>
+              <input type="text" class="form-control" id="studentRegisterNo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Department *</label>
+              <select class="form-select" id="studentDepartment" required>
+                <option value="">Select Department</option>
+                <option value="CSE">Computer Science & Engineering</option>
+                <option value="ECE">Electronics & Communication</option>
+                <option value="EEE">Electrical & Electronics</option>
+                <option value="MECH">Mechanical Engineering</option>
+                <option value="CIVIL">Civil Engineering</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email *</label>
+              <input type="email" class="form-control" id="studentEmail" required>
+            </div>
+            
+            <div class="mb-3" id="passwordSection">
+              <label class="form-label">Password *</label>
+              <input type="password" class="form-control" id="studentPassword" minlength="6">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" onclick="saveStudent()">Save Student</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Records Section -->
+  <div id="records-section" class="section" style="display:none;">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-info text-white">
+            <h6 class="mb-0">Update Attendance</h6>
+          </div>
+          <div class="card-body">
+            <form id="attendanceForm">
+              <div class="mb-3">
+                <label class="form-label">Student</label>
+                <select class="form-select" name="student_id" required>
+                  <option value="">Select Student</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Subject</label>
+                <input type="text" class="form-control" name="subject" required>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <label class="form-label">Present Days</label>
+                  <input type="number" class="form-control" name="present_days" min="0" required>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Total Days</label>
+                  <input type="number" class="form-control" name="total_days" min="1" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-info mt-3">Update Attendance</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-warning text-dark">
+            <h6 class="mb-0">Update Marks</h6>
+          </div>
+          <div class="card-body">
+            <form id="marksForm">
+              <div class="mb-3">
+                <label class="form-label">Student</label>
+                <select class="form-select" name="student_id" required>
+                  <option value="">Select Student</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Subject</label>
+                <input type="text" class="form-control" name="subject" required>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <label class="form-label">Mid-term Marks</label>
+                  <input type="number" class="form-control" name="mid_term" min="0" max="100" required>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Internal Marks</label>
+                  <input type="number" class="form-control" name="internal" min="0" max="100" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-warning mt-3">Update Marks</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function showSection(section) {
+      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+      document.getElementById(section + '-section').style.display = 'block';
+      
+      if (section === 'students') loadStudents();
+    }
+
+    // Form submissions
+    document.getElementById('notesForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      
+      try {
+        const response = await fetch('/api/admin/upload/notes', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          alert('Notes uploaded successfully!');
+          e.target.reset();
+        } else {
+          alert('Error uploading notes');
+        }
+      } catch (error) {
+        alert('Error uploading notes');
+      }
+    });
+
+    document.getElementById('pyqForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      
+      try {
+        const response = await fetch('/api/admin/upload/pyq', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          alert('PYQ uploaded successfully!');
+          e.target.reset();
+        } else {
+          alert('Error uploading PYQ');
+        }
+      } catch (error) {
+        alert('Error uploading PYQ');
+      }
+    });
+
+    
+    // Dynamic semester options based on branch
+    function updateSemesterOptions(branchSelect, semesterSelect) {
+      const branch = branchSelect.value;
+      const semesters = {
+        'CSE': 8, 'ECE': 8, 'EEE': 8, 'MECH': 8, 'CIVIL': 8
+      };
+      
+      semesterSelect.innerHTML = '<option value="">Select Semester</option>';
+      
+      if (branch && semesters[branch]) {
+        for (let i = 1; i <= semesters[branch]; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = i + (i === 1 ? 'st' : i === 2 ? 'nd' : i === 3 ? 'rd' : 'th') + ' Semester';
+          semesterSelect.appendChild(option);
+        }
+      }
+    }
+
+    // Add event listeners when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Notes form
+      const notesBranch = document.querySelector('#notesForm [name="branch"]');
+      const notesSemester = document.querySelector('#notesForm [name="semester"]');
+      if (notesBranch && notesSemester) {
+        notesBranch.addEventListener('change', () => updateSemesterOptions(notesBranch, notesSemester));
+      }
+
+      // PYQ form
+      const pyqBranch = document.querySelector('#pyqForm [name="branch"]');
+      const pyqSemester = document.querySelector('#pyqForm [name="semester"]');
+      if (pyqBranch && pyqSemester) {
+        pyqBranch.addEventListener('change', () => updateSemesterOptions(pyqBranch, pyqSemester));
+      }
+
+      // Syllabus form
+      const syllabusBranch = document.querySelector('#syllabusForm [name="branch"]');
+      const syllabusSemester = document.querySelector('#syllabusForm [name="semester"]');
+      if (syllabusBranch && syllabusSemester) {
+        syllabusBranch.addEventListener('change', () => updateSemesterOptions(syllabusBranch, syllabusSemester));
+      }
+
+      // Timetable form
+      const timetableBranch = document.querySelector('#timetableForm [name="branch"]');
+      const timetableSemester = document.querySelector('#timetableForm [name="semester"]');
+      if (timetableBranch && timetableSemester) {
+        timetableBranch.addEventListener('change', () => updateSemesterOptions(timetableBranch, timetableSemester));
+      }
+    });
+
+    // Load students when page loads and when students section is shown
+    document.addEventListener('DOMContentLoaded', function() {
+      // Auto-load students when page loads
+      loadStudents();
+      
+      // Also load when students section is shown
+      const studentsBtn = document.querySelector('[onclick="showSection(\'students\')"]');
+      if (studentsBtn) {
+        studentsBtn.addEventListener('click', function() {
+          setTimeout(loadStudents, 100);
+        });
+      }
+    });
+    
+    // Add search on Enter key
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('studentSearch');
+      if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            searchStudents();
+          }
+        });
+      }
+    });
+
+    async function loadStudents() {
+      try {
+        const response = await fetch('/api/admin/students');
+        const students = await response.json();
+        
+        const tbody = document.getElementById('studentsTable');
+        tbody.innerHTML = students.map(student => `
+          <tr>
+            <td>${student.register_no}</td>
+            <td>${student.name}</td>
+            <td>${student.department}</td>
+            <td>${student.email}</td>
+            <td>
+              <button class="btn btn-sm btn-warning me-1" onclick="editStudent(${student.id})">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-sm btn-danger" onclick="deleteStudent(${student.id})">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        document.getElementById('studentsTable').innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading students</td></tr>';
+      }
+    }
+
+    async function searchStudents() {
+      const searchTerm = document.getElementById('studentSearch').value.trim();
+      if (!searchTerm) {
+        loadStudents();
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/admin/students/search?q=${encodeURIComponent(searchTerm)}`);
+        const students = await response.json();
+        
+        const tbody = document.getElementById('studentsTable');
+        if (students.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No students found</td></tr>';
+        } else {
+          tbody.innerHTML = students.map(student => `
+            <tr>
+              <td>${student.register_no}</td>
+              <td>${student.name}</td>
+              <td>${student.department}</td>
+              <td>${student.email}</td>
+              <td>
+                <button class="btn btn-sm btn-warning me-1" onclick="editStudent(${student.id})">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteStudent(${student.id})">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (error) {
+        document.getElementById('studentsTable').innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error searching students</td></tr>';
+      }
+    }
+
+    function showAddStudent() {
+      document.getElementById('studentModalTitle').textContent = 'Add New Student';
+      document.getElementById('studentForm').reset();
+      document.getElementById('studentId').value = '';
+      document.getElementById('passwordSection').style.display = 'block';
+      document.getElementById('studentPassword').required = true;
+      new bootstrap.Modal(document.getElementById('studentModal')).show();
+    }
+
+    async function editStudent(id) {
+      try {
+        const response = await fetch(`/api/admin/students/${id}`);
+        const student = await response.json();
+        
+        document.getElementById('studentModalTitle').textContent = 'Edit Student';
+        document.getElementById('studentId').value = student.id;
+        document.getElementById('studentName').value = student.name;
+        document.getElementById('studentRegisterNo').value = student.register_no;
+        document.getElementById('studentDepartment').value = student.department;
+        document.getElementById('studentEmail').value = student.email;
+        
+        document.getElementById('passwordSection').style.display = 'none';
+        document.getElementById('studentPassword').required = false;
+        
+        new bootstrap.Modal(document.getElementById('studentModal')).show();
+      } catch (error) {
+        alert('Error loading student data');
+      }
+    }
+
+    async function saveStudent() {
+      const id = document.getElementById('studentId').value;
+      const isEdit = !!id;
+      
+      const studentData = {
+        name: document.getElementById('studentName').value,
+        registerNo: document.getElementById('studentRegisterNo').value,
+        department: document.getElementById('studentDepartment').value,
+        email: document.getElementById('studentEmail').value,
+        
+        userType: 'student'
+      };
+
+      if (!isEdit) {
+        studentData.password = document.getElementById('studentPassword').value;
+      }
+
+      try {
+        const url = isEdit ? `/api/admin/students/${id}` : '/api/auth/signup';
+        const method = isEdit ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(studentData)
+        });
+
+        if (response.ok) {
+          alert(isEdit ? 'Student updated successfully!' : 'Student added successfully!');
+          bootstrap.Modal.getInstance(document.getElementById('studentModal')).hide();
+          loadStudents();
+        } else {
+          const error = await response.json();
+          alert(error.error || 'Error saving student');
+        }
+      } catch (error) {
+        alert('Error saving student');
+      }
+    }
+
+    async function deleteStudent(id) {
+      if (!confirm('Are you sure you want to delete this student?')) return;
+
+      try {
+        const response = await fetch(`/api/admin/students/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          alert('Student deleted successfully!');
+          loadStudents();
+        } else {
+          alert('Error deleting student');
+        }
+      } catch (error) {
+        alert('Error deleting student');
+      }
+    }
+  </script>
+  
+  
+
+  <script>
+    // Create profile avatar and theme toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create theme toggle button
+      const themeToggle = document.createElement('button');
+      themeToggle.className = 'theme-toggle';
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      themeToggle.onclick = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      };
+      
+      // Create profile avatar
+      const profileAvatar = document.createElement('div');
+      profileAvatar.className = 'profile-avatar';
+      profileAvatar.innerHTML = `
+        <div class="avatar-container">
+          <div class="avatar-img" id="avatarImg">A</div>
+          <div class="avatar-dropdown" id="avatarDropdown">
+            <a href="#" class="dropdown-item" onclick="showProfile()"><i class="fas fa-user me-2"></i>Profile</a>
+            <a href="#" class="dropdown-item" onclick="showIDCard()"><i class="fas fa-id-card me-2"></i>Show ID Card</a>
+            <a href="#" class="dropdown-item" onclick="changePhoto()"><i class="fas fa-camera me-2"></i>Change Photo</a>
+            <a href="#" class="dropdown-item" onclick="toggleDarkMode()"><i class="fas fa-cog me-2"></i>Settings</a>
+            <a href="#" class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertBefore(themeToggle, document.body.firstChild);
+      document.body.insertBefore(profileAvatar, document.body.firstChild);
+      
+      // Update avatar with admin initial
+      const userName = localStorage.getItem('userName') || 'Admin';
+      const savedAvatar = localStorage.getItem('userAvatar');
+      const avatarImg = document.getElementById('avatarImg');
+      
+      if (savedAvatar) {
+        avatarImg.style.backgroundImage = `url(${savedAvatar})`;
+        avatarImg.style.backgroundSize = 'cover';
+        avatarImg.style.backgroundPosition = 'center';
+        avatarImg.textContent = '';
+      } else {
+        avatarImg.textContent = userName.charAt(0).toUpperCase();
+      }
+      
+      // Avatar dropdown functionality
+      document.getElementById('avatarImg').onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('show');
+      };
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function() {
+        document.getElementById('avatarDropdown').classList.remove('show');
+      });
+      
+      // Apply dark mode if saved
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    });
+
+    // Global functions
+    window.showProfile = function() {
+      alert('Admin profile page coming soon!');
+      document.getElementById('avatarDropdown').classList.remove('show');
+    };
+
+    window.showIDCard = function() {
+      const userName = localStorage.getItem('userName') || 'Admin';
+      const registerNo = localStorage.getItem('registerNo') || 'admin';
+      const savedAvatar = localStorage.getItem('userAvatar');
+      
+      const modal = document.createElement('div');
+      modal.className = 'modal fade';
+      modal.innerHTML = `
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+              <h5 class="modal-title">ITER ADMIN ID</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+              <div class="mb-3">
+                <div class="bg-danger text-white mx-auto rounded-circle d-flex align-items-center justify-content-center" 
+                     style="width:80px;height:80px;font-size:30px;" id="modalPhoto">
+                  ${savedAvatar ? '' : userName.charAt(0).toUpperCase()}
+                </div>
+              </div>
+              <h5>${userName}</h5>
+              <p class="text-muted">${registerNo}</p>
+              <div class="text-muted">
+                <div>System Administrator</div>
+                <div>ITER College Portal</div>
+                <div>Valid Until: Dec 2024</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      if (savedAvatar) {
+        modal.querySelector('#modalPhoto').style.backgroundImage = `url(${savedAvatar})`;
+        modal.querySelector('#modalPhoto').style.backgroundSize = 'cover';
+        modal.querySelector('#modalPhoto').style.backgroundPosition = 'center';
+        modal.querySelector('#modalPhoto').textContent = '';
+      }
+      
+      document.body.appendChild(modal);
+      new bootstrap.Modal(modal).show();
+      
+      modal.addEventListener('hidden.bs.modal', () => modal.remove());
+      document.getElementById('avatarDropdown').classList.remove('show');
+    };
+
+    window.changePhoto = function() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const avatarImg = document.getElementById('avatarImg');
+            avatarImg.style.backgroundImage = `url(${e.target.result})`;
+            avatarImg.style.backgroundSize = 'cover';
+            avatarImg.style.backgroundPosition = 'center';
+            avatarImg.textContent = '';
+            localStorage.setItem('userAvatar', e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
+      document.getElementById('avatarDropdown').classList.remove('show');
+    };
+
+    window.toggleDarkMode = function() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+      const themeToggle = document.querySelector('.theme-toggle');
+      themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      document.getElementById('avatarDropdown').classList.remove('show');
+    };
+
+    window.logout = function() {
+      localStorage.clear();
+      window.location.href = '/login.html';
+    };
+  </script>
+</body>
+</html>
